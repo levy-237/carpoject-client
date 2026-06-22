@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import "./globals.css";
 import { Header } from "@/components/layout/Header";
 import { Providers } from "./providers";
+import AiPopUp from "@/components/ai/AiPopUp";
 
 export const metadata: Metadata = {
   title: "Car Project",
@@ -19,6 +20,7 @@ export default function RootLayout({
         <Providers>
           <Header />
           {children}
+          <AiPopUp />
         </Providers>
       </body>
     </html>
