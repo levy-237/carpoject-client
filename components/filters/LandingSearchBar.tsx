@@ -27,7 +27,7 @@ export default function LandingSearchBar() {
   };
 
   return (
-    <section className="flex h-fit items-center justify-center px-4 py-30 max-md:hidden max-md:py-5">
+    <section className="flex h-fit items-center justify-center px-4 py-30 max-md:py-5">
       <div className="w-full max-w-4xl rounded-3xl border border-gray-200 bg-white p-10 shadow-lg">
         <SearchBar onChange={() => {}} />
 

@@ -4,40 +4,9 @@ import Image from "next/image";
 import { useState } from "react";
 import HeaderDropdown from "./Header-Dropdown";
 import Link from "next/link";
+import BurgerMenu from "./BurgerMenu";
+import { NAV_ITEMS } from "@/lib/nav-items";
 
-type NavItem = {
-  id: number;
-  title: string;
-  link: string;
-  icon: string;
-};
-
-const navItems: NavItem[] = [
-  {
-    id: 1,
-    title: "Fahrzeuge",
-    link: "/listings",
-    icon: "/car-icon.svg",
-  },
-  {
-    id: 2,
-    title: "Unternehmen",
-    link: "/companies",
-    icon: "/company-icon.svg",
-  },
-  {
-    id: 3,
-    title: "Aufladen",
-    link: "/charging",
-    icon: "/charging-icon.svg",
-  },
-  {
-    id: 4,
-    title: "Uber uns",
-    link: "/about",
-    icon: "/about-icon.svg",
-  },
-];
 export function Header() {
   const [isHovered, setIsHovered] = useState<string | boolean>(false);
 
@@ -69,7 +38,7 @@ export function Header() {
         </div>
 
         <nav className="flex flex-1 items-center justify-center gap-8 font-semibold max-md:hidden">
-          {navItems.map((item) => (
+          {NAV_ITEMS.map((item) => (
             <Link
               href={item.link}
               key={item.id}
@@ -92,15 +61,10 @@ export function Header() {
             onMouseEnter={() => handleMouseLeave()}
           />
         </div>
-        <button
-          type="button"
-          aria-label="Open menu"
-          className="flex flex-col justify-center gap-1.5 p-2 md:hidden"
-        >
-          <span className="block h-0.5 w-6 bg-gray-900" />
-          <span className="block h-0.5 w-6 bg-gray-900" />
-          <span className="block h-0.5 w-6 bg-gray-900" />
-        </button>
+
+        <div className="flex flex-1 items-center justify-end md:hidden">
+          <BurgerMenu />
+        </div>
       </nav>
       {isHovered && (
         <HeaderDropdown

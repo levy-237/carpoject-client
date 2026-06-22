@@ -7,7 +7,7 @@ export default function FiltersDelete({ onReset }: FiltersDeleteProps) {
     <button
       type="button"
       onClick={onReset}
-      className="flex items-center gap-1.5 text-sm font-medium text-gray-600 transition-colors duration-200 hover:text-gray-900"
+      className="flex items-center gap-1.5 text-sm font-medium text-gray-600 transition-colors duration-200 hover:text-gray-900 cursor-pointer"
     >
       <svg
         xmlns="http://www.w3.org/2000/svg"

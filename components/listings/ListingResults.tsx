@@ -84,9 +84,11 @@ export default function ListingResults() {
           {" "}
           <div className="flex items-center justify-between gap-4">
             <p className="text-sm text-gray-500">{count} Ergebnisse</p>
-            <div className="lg:hidden flex items-center gap-4">
+            <div className="flex items-center gap-4">
               <FiltersDelete onReset={() => router.push("/listings")} />
-              <DetailSearchModal />
+              <div className="lg:hidden flex items-center gap-4">
+                <DetailSearchModal />
+              </div>
             </div>
           </div>
           <div className="flex flex-col gap-4">
