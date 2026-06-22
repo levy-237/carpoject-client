@@ -38,11 +38,6 @@ export default function DetailSearchFormFields({
     onSubmitFormFilters(formFilters);
   }
 
-  function handleReset() {
-    setFormFilters(getDefaultDetailSearchFormState());
-    onResetFormFilters();
-  }
-
   return (
     <form
       onSubmit={handleSubmit}
@@ -60,7 +55,7 @@ export default function DetailSearchFormFields({
         </p>
       </div>
 
-      <FormActions className="mb-6" onReset={handleReset} />
+      <FormActions className="mb-6" />
 
       <FilterSection title="Suche & Sortierung">
         <div className="grid grid-cols-1 gap-3">
@@ -331,7 +326,7 @@ export default function DetailSearchFormFields({
         </div>
       </FilterSection>
 
-      <FormActions className="mt-8" onReset={handleReset} />
+      <FormActions className="mt-8" />
     </form>
   );
 }

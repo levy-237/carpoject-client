@@ -54,17 +54,19 @@ export function Header() {
   return (
     <header className="flex flex-col bg-white relative text-gray-900">
       <nav className="flex h-16 w-full items-center px-6">
-        <Link href="/" className="flex flex-1 items-center">
-          <Image
-            src="/logo.png"
-            alt="Car Project logo"
-            width={160}
-            height={80}
-            priority
-            className="h-12 w-auto object-contain"
-            onMouseEnter={() => handleMouseLeave()}
-          />
-        </Link>
+        <div className="flex flex-1 items-center w-fit">
+          <Link href="/">
+            <Image
+              src="/logo.png"
+              alt="Car Project logo"
+              width={160}
+              height={80}
+              priority
+              className="h-12 w-auto object-contain"
+              onMouseEnter={() => handleMouseLeave()}
+            />
+          </Link>
+        </div>
 
         <nav className="flex flex-1 items-center justify-center gap-8 font-semibold max-md:hidden">
           {navItems.map((item) => (

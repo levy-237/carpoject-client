@@ -1,0 +1,106 @@
+"use client";
+
+import { useEffect, useState } from "react";
+import DetailSearchModal from "@/components/filters/DetailSearchModal";
+import { fetchListings, type Listing } from "@/lib/listings";
+import ListingCard from "./ListingCard";
+import Pagination from "./Pagination";
+import ListingResultsSkeleton from "../skeletons&&errors/ListingResultsSkeleton";
+import { useQueryStates } from "nuqs";
+import { detailSearchParsers } from "@/lib/detail-search";
+import { useRouter } from "next/navigation";
+import FiltersDelete from "../filters/FiltersDelete";
+
+export default function ListingResults() {
+  const router = useRouter();
+  const [count, setCount] = useState(0);
+  const [results, setResults] = useState<Listing[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+
+  const [filters] = useQueryStates(detailSearchParsers);
+
+  useEffect(() => {
+    let isCancelled = false;
+
+    async function loadListings() {
+      try {
+        setIsLoading(true);
+        setError(null);
+
+        const url = new URLSearchParams();
+        for (const [key, value] of Object.entries(filters)) {
+          if (typeof value === "string" && value) {
+            url.set(key, value.toString().trim());
+          } else if (Array.isArray(value) && value.length > 0) {
+            for (const item of value) {
+              url.set(key, item.toString().trim());
+            }
+          }
+        }
+
+        const data = await fetchListings(url.toString());
+
+        if (!isCancelled) {
+          setCount(data.count);
+          setResults(data.results);
+        }
+      } catch (err) {
+        if (!isCancelled) {
+          setError(
+            err instanceof Error ? err.message : "Failed to fetch listings",
+          );
+        }
+      } finally {
+        if (!isCancelled) {
+          setIsLoading(false);
+        }
+      }
+    }
+
+    loadListings();
+
+    return () => {
+      isCancelled = true;
+    };
+  }, [filters]);
+
+  if (isLoading) {
+    return <ListingResultsSkeleton />;
+  }
+
+  if (error) {
+    return (
+      <section className="flex min-w-0 w-full max-w-4xl flex-1 flex-col gap-4">
+        <p className="text-sm text-red-600">{error}</p>
+      </section>
+    );
+  }
+
+  return (
+    <section className="flex min-w-0 w-full max-w-4xl flex-1 flex-col gap-4">
+      {results.length > 0 ? (
+        <>
+          {" "}
+          <div className="flex items-center justify-between gap-4">
+            <p className="text-sm text-gray-500">{count} Ergebnisse</p>
+            <div className="lg:hidden flex items-center gap-4">
+              <FiltersDelete onReset={() => router.push("/listings")} />
+              <DetailSearchModal />
+            </div>
+          </div>
+          <div className="flex flex-col gap-4">
+            {results.map((listing) => (
+              <ListingCard key={listing.id} listing={listing} />
+            ))}
+          </div>
+          <Pagination count={count} />{" "}
+        </>
+      ) : (
+        <h1 className="text-xl text-gray-500 text-center mt-10 ">
+          Keine Ergebnisse gefunden
+        </h1>
+      )}
+    </section>
+  );
+}

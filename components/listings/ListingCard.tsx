@@ -1,0 +1,158 @@
+import Image from "next/image";
+import Link from "next/link";
+import type { Listing } from "@/lib/listings";
+import { formatMileage, formatPrice, formatYear } from "@/lib/listings";
+
+function PremiumAdBadge() {
+  return (
+    <span
+      className="inline-flex shrink-0 items-center gap-1 rounded-md bg-amber-100 px-2 py-0.5 text-xs font-semibold uppercase tracking-wide text-amber-800"
+      title="Premium-Anzeige"
+    >
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        viewBox="0 0 24 24"
+        fill="currentColor"
+        className="size-3.5"
+        aria-hidden="true"
+      >
+        <path d="M13.5 4.06c0-1.336-1.616-2.005-2.56-1.06l-4.5 4.5H4.508c-1.141 0-2.318.664-2.66 1.905A9.76 9.76 0 0 0 1.5 12c0 .898.121 1.768.35 2.595.341 1.24 1.518 1.905 2.659 1.905h1.93l4.5 4.5c.945.945 2.561.276 2.561-1.06V4.06ZM18.584 5.106a.75.75 0 0 1 1.06 0c3.808 3.807 3.808 9.98 0 13.788a.75.75 0 0 1-1.06-1.06 8.25 8.25 0 0 0 0-11.668.75.75 0 0 1 0-1.06Z" />
+        <path d="M15.932 7.757a.75.75 0 0 1 1.061 0 6 6 0 0 1 0 8.486.75.75 0 0 1-1.06-1.061 4.5 4.5 0 0 0 0-6.364.75.75 0 0 1 0-1.06Z" />
+      </svg>
+      Anzeige
+    </span>
+  );
+}
+
+function SpecItem({ label, value }: { label: string; value: string | number }) {
+  return (
+    <span className="inline-flex items-center gap-1.5">
+      <span className="text-gray-400">{label}</span>
+      <span className="font-medium text-gray-700">{value}</span>
+    </span>
+  );
+}
+
+function InfoPill({ children }: { children: React.ReactNode }) {
+  return (
+    <span className="rounded-full bg-gray-100 px-2.5 py-1 text-xs font-medium text-gray-600">
+      {children}
+    </span>
+  );
+}
+
+function ListingOwner({ username }: { username: string }) {
+  const initial = username.charAt(0).toUpperCase();
+
+  return (
+    <div className="flex min-w-0 flex-1 items-center gap-3">
+      <div className="flex size-9 shrink-0 items-center justify-center rounded-full bg-gray-900 text-sm font-semibold text-white">
+        {initial}
+      </div>
+      <div className="min-w-0">
+        <p className="text-xs text-gray-400">Anbieter</p>
+        <p className="truncate text-sm font-medium text-gray-800">{username}</p>
+      </div>
+    </div>
+  );
+}
+
+function ViewCount({ count }: { count: number }) {
+  return (
+    <span className="inline-flex shrink-0 items-center gap-1.5 text-sm text-gray-500">
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth={1.5}
+        className="size-4"
+        aria-hidden="true"
+      >
+        <path
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          d="M2.036 12.322a1.012 1.012 0 0 1 0-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.964-7.178Z"
+        />
+        <path
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z"
+        />
+      </svg>
+      <span>{count.toLocaleString("de-DE")}</span>
+    </span>
+  );
+}
+
+export default function ListingCard({ listing }: { listing: Listing }) {
+  const year = formatYear(listing.makeyear);
+
+  return (
+    <Link
+      href={`/listings/${listing.id}`}
+      className="group flex min-w-0 w-full flex-col overflow-hidden rounded-2xl border border-gray-200 bg-white shadow-sm transition-shadow duration-300 hover:shadow-md md:h-100 md:flex-row"
+    >
+      <div className="relative aspect-[4/3] w-full shrink-0 overflow-hidden bg-gray-100 md:aspect-auto md:h-full md:w-[40%]">
+        <Image
+          src={listing.cover_image?.image ?? "/placeholder.png"}
+          alt={listing.title}
+          fill
+          className="object-contain transition-transform duration-300 group-hover:scale-105"
+        />
+      </div>
+
+      <div className="flex min-w-0 flex-1 flex-col p-5">
+        <div className="flex min-w-0 items-start gap-2">
+          {listing.is_premium && <PremiumAdBadge />}
+          <h2 className="min-w-0 line-clamp-2 text-lg font-semibold leading-snug text-gray-900">
+            {listing.title}
+          </h2>
+        </div>
+
+        <p className="mt-1 truncate text-sm text-gray-500">
+          {listing.model_detail.name}
+          <span className="mx-1.5 text-gray-300">·</span>
+          {listing.model_trim_detail.name}
+        </p>
+
+        <p className="mt-4 text-2xl font-bold text-gray-900">
+          {formatPrice(listing.price)}
+        </p>
+
+        <div className="mt-4 flex flex-wrap items-center gap-x-4 gap-y-1 text-sm">
+          <SpecItem label="Zustand" value={listing.condition_detail.name} />
+          <SpecItem label="Baujahr" value={year} />
+          <SpecItem label="Leistung" value={`${listing.power} PS`} />
+          {listing.model_trim_detail.drivetrain_detail && (
+            <SpecItem
+              label="Antrieb"
+              value={listing.model_trim_detail.drivetrain_detail.name}
+            />
+          )}
+        </div>
+
+        <div className="mt-4 flex flex-wrap gap-2">
+          <InfoPill>{formatMileage(listing.mileage)}</InfoPill>
+          {listing.real_summer_range && (
+            <InfoPill>Sommer {listing.real_summer_range} km</InfoPill>
+          )}
+          {listing.real_winter_range && (
+            <InfoPill>Winter {listing.real_winter_range} km</InfoPill>
+          )}
+          {listing.battery_health && (
+            <InfoPill>Batterie {listing.battery_health}%</InfoPill>
+          )}
+          {listing.heat_pump && <InfoPill>Wärmepumpe</InfoPill>}
+          {listing.garantie && <InfoPill>Garantie</InfoPill>}
+          {listing.pickerl && <InfoPill>Pickerl</InfoPill>}
+        </div>
+
+        <div className="mt-auto flex items-center justify-between gap-3 border-t border-gray-100 pt-4">
+          <ListingOwner username={listing.owner.username} />
+          <ViewCount count={listing.view_count} />
+        </div>
+      </div>
+    </Link>
+  );
+}
