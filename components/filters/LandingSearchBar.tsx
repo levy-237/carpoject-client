@@ -3,6 +3,7 @@
 import { useState } from "react";
 import DropDownFilter, { type SelectedFilterIds } from "./DropDownFilter";
 import DetailSearchModal from "./DetailSearchModal";
+import FiltersDelete from "./FiltersDelete";
 import SearchBar from "./SearchBar";
 
 export default function LandingSearchBar() {
@@ -36,7 +37,6 @@ export default function LandingSearchBar() {
             name="Marke"
             value={selectedBrands}
             onChange={setSelectedBrands}
-            onClick={() => {}}
             searchable
           />
           <DropDownFilter
@@ -45,7 +45,6 @@ export default function LandingSearchBar() {
             value={selectedModels}
             onChange={setSelectedModels}
             disabled={selectedBrands.length === 0}
-            onClick={() => {}}
             searchable
           />
           <DropDownFilter
@@ -54,7 +53,6 @@ export default function LandingSearchBar() {
             value={selectedTrims}
             disabled={selectedModels.length === 0}
             onChange={setSelectedTrims}
-            onClick={() => {}}
             searchable
           />
         </div>
@@ -65,7 +63,6 @@ export default function LandingSearchBar() {
             name="Karosserie"
             value={selectedBodyTypes}
             onChange={setSelectedBodyTypes}
-            onClick={() => {}}
             searchable
           />
 
@@ -74,7 +71,6 @@ export default function LandingSearchBar() {
             name="Bundesland"
             value={selectedProvince}
             onChange={setSelectedProvince}
-            onClick={() => {}}
             searchable={false}
           />
           <div className="w-full flex justify-center">
@@ -88,28 +84,7 @@ export default function LandingSearchBar() {
         </div>
 
         <div className="mt-3 flex justify-end gap-4">
-          <button
-            type="button"
-            onClick={handleReset}
-            className="flex items-center gap-1.5 text-sm font-medium text-gray-600 transition-colors duration-200 hover:text-gray-900"
-          >
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="2"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              className="size-4"
-              aria-hidden="true"
-            >
-              <path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8" />
-              <path d="M3 3v5h5" />
-            </svg>
-            Zurücksetzen
-          </button>
-
+          <FiltersDelete onReset={handleReset} />
           <DetailSearchModal />
         </div>
       </div>

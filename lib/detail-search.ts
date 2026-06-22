@@ -62,6 +62,7 @@ export const detailSearchParsers = {
   garantie: parseAsStringLiteral(["true", "false"] as const),
   pickerl: parseAsStringLiteral(["true", "false"] as const),
   heatpump: parseAsStringLiteral(["true", "false"] as const),
+  offset: parseAsString.withDefault(""),
 };
 
 export type DetailSearchFormState = inferParserType<typeof detailSearchParsers>;
@@ -146,6 +147,7 @@ export function getDefaultDetailSearchFormState(): DetailSearchFormState {
     garantie: null,
     pickerl: null,
     heatpump: null,
+    offset: "",
   };
 }
 
@@ -184,6 +186,7 @@ export function formFiltersToUrlState(formFilters: DetailSearchFormState) {
     garantie: formFilters.garantie,
     pickerl: formFilters.pickerl,
     heatpump: formFilters.heatpump,
+    offset: null,
   };
 }
 
@@ -221,6 +224,7 @@ export function getResetDetailSearchState() {
     garantie: null,
     pickerl: null,
     heatpump: null,
+    offset: null,
   } as const;
 }
 
