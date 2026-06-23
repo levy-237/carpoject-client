@@ -134,3 +134,39 @@ export async function fetchListings(
 
   return response.json();
 }
+
+export type ListingDetailSuccessResponse = Listing & {
+  success: true;
+};
+
+export type ListingDetailErrorResponse = {
+  success: false;
+  message: string;
+};
+
+export type ListingDetailResponse =
+  | ListingDetailSuccessResponse
+  | ListingDetailErrorResponse;
+
+export async function fetchListingDetail(
+  id: number,
+): Promise<ListingDetailResponse> {
+  const response = await fetch(`${API_BASE_URL}listings/${id}/`, {
+    cache: "no-store",
+  });
+
+  const data = await response.json();
+
+  if (!response.ok) {
+    return {
+      success: false,
+      message: data.detail || data.error || "Failed to fetch listing",
+    };
+  }
+  console.log(data);
+
+  return {
+    success: true,
+    ...data,
+  };
+}
