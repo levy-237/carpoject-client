@@ -1,6 +1,7 @@
 "use client";
 
 import ListingCard from "@/components/listings/ListingCard";
+import FavouriteListingsEmpty from "@/components/me/FavouriteListingsEmpty";
 import type { Listing } from "@/lib/listings";
 
 export default function FavouriteListingsView({
@@ -31,9 +32,7 @@ export default function FavouriteListingsView({
           ))}
         </div>
       ) : (
-        <p className="mt-8 text-sm text-gray-500">
-          Du hast noch keine Favoriten gespeichert.
-        </p>
+        <FavouriteListingsEmpty />
       )}
     </div>
   );

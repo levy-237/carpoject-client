@@ -4,8 +4,10 @@ import {
   removeTokens,
   refreshTokenCookie,
   accessTokenCookie,
+  getAccessToken,
 } from "@/lib/auth";
 import { cookies } from "next/headers";
+import { revalidatePath } from "next/cache";
 
 type LoginProps = {
   username: string;
@@ -228,5 +230,82 @@ export async function resetPassword(
   return {
     success: true,
     message: data.detail || "Passwort wurde zurückgesetzt.",
+  };
+}
+
+export async function sendUserVerification(): Promise<RecoveryResponse> {
+  const accessToken = await getAccessToken();
+
+  if (!accessToken) {
+    return { success: false, message: "Nicht autorisiert." };
+  }
+
+  const response = await fetch(
+    `${process.env.API_BASE_URL}users/send-user-verification/`,
+    {
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+      },
+    },
+  );
+
+  const data = await response.json();
+
+  if (!response.ok) {
+    return {
+      success: false,
+      message:
+        data.detail ||
+        data.error ||
+        "Bestätigungscode konnte nicht gesendet werden.",
+    };
+  }
+
+  return {
+    success: true,
+    message: data.message || "Bestätigungscode wurde gesendet.",
+  };
+}
+
+export async function verifyUserEmail(code: string): Promise<RecoveryResponse> {
+  const accessToken = await getAccessToken();
+
+  if (!accessToken) {
+    return { success: false, message: "Nicht autorisiert." };
+  }
+
+  if (!code.trim()) {
+    return { success: false, message: "Bitte gib den Bestätigungscode ein." };
+  }
+
+  const response = await fetch(
+    `${process.env.API_BASE_URL}users/user-verification/`,
+    {
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ code: code.trim() }),
+    },
+  );
+
+  const data = await response.json();
+
+  if (!response.ok) {
+    return {
+      success: false,
+      message:
+        data.detail || data.error || "E-Mail konnte nicht bestätigt werden.",
+    };
+  }
+
+  revalidatePath("/me", "layout");
+  revalidatePath("/", "layout");
+
+  return {
+    success: true,
+    message: data.message || data.detail || "E-Mail wurde bestätigt.",
   };
 }
