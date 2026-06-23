@@ -43,22 +43,25 @@ export default function HeaderDropdown({
 
       <div className="flex w-[30%] flex-col gap-1 pl-10 text-sm font-medium max-sm:pt-5">
         <div onClick={handleMouseLeave} className="w-fit">
-          <Link href="/" className={sidebarLinkClass}>
+          <Link href="/listings" className={sidebarLinkClass}>
             Alle Fahrzeuge
           </Link>
         </div>
         <div onClick={handleMouseLeave} className="w-fit">
-          <Link href="/" className={sidebarLinkClass}>
+          <Link href="/listings?maxprice=15000" className={sidebarLinkClass}>
             Budget Fahrzeuge
           </Link>
         </div>
         <div onClick={handleMouseLeave} className="w-fit">
-          <Link href="/" className={sidebarLinkClass}>
+          <Link href="/listings?minprice=50000" className={sidebarLinkClass}>
             Luxus Fahrzeuge
           </Link>
         </div>
         <div onClick={handleMouseLeave} className="w-fit">
-          <Link href="/" className={sidebarLinkClass}>
+          <Link
+            href="/listings?minfactoryrange=400"
+            className={sidebarLinkClass}
+          >
             Long range Fahrzeuge
           </Link>
         </div>
