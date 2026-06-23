@@ -21,7 +21,7 @@ export default function BeliebteKategorien() {
               href={category.link}
               className="group flex h-full flex-col items-center justify-center gap-2 rounded-2xl bg-gray-100/60 p-4 text-center"
             >
-              <Image
+              <img
                 src={category.icon}
                 alt={category.title}
                 width={220}

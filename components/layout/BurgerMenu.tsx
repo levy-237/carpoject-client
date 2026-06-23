@@ -1,6 +1,5 @@
 "use client";
 
-import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { DROPDOWN_ITEMS } from "@/lib/dropdown-items";
@@ -71,11 +70,9 @@ export default function BurgerMenu() {
         <div className="fadeIn fixed inset-0 z-50 flex flex-col bg-white md:hidden">
           <div className="flex h-16 shrink-0 items-center justify-between border-b border-gray-100 px-6">
             <Link href="/" onClick={closeMenu}>
-              <Image
+              <img
                 src="/logo.png"
                 alt="Car Project logo"
-                width={140}
-                height={70}
                 className="h-10 w-auto object-contain"
               />
             </Link>
@@ -147,11 +144,9 @@ export default function BurgerMenu() {
                               className="flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium text-gray-700 transition-colors hover:bg-gray-100"
                               onClick={closeMenu}
                             >
-                              <Image
+                              <img
                                 src={drawerItem.icon}
                                 alt=""
-                                width={40}
-                                height={24}
                                 className="h-6 w-10 object-contain"
                                 aria-hidden="true"
                               />
@@ -170,11 +165,9 @@ export default function BurgerMenu() {
                   className="flex items-center gap-3 py-3 text-base font-semibold text-gray-900 transition-colors hover:text-gray-600"
                   onClick={closeMenu}
                 >
-                  <Image
+                  <img
                     src="/user-image.svg"
                     alt=""
-                    width={20}
-                    height={20}
                     className="size-5"
                     aria-hidden="true"
                   />

@@ -1,4 +1,3 @@
-import Image from "next/image";
 import Link from "next/link";
 import Carousel from "@/components/ui/Carousel";
 
@@ -61,11 +60,10 @@ export default function TopDeals() {
               className="group flex h-full flex-col overflow-hidden rounded-2xl border border-gray-200 bg-white shadow-sm transition-shadow duration-300 hover:shadow-md"
             >
               <div className="relative aspect-[4/3] w-full overflow-hidden bg-gray-100">
-                <Image
+                <img
                   src="/placeholder.png"
                   alt={deal.title}
-                  fill
-                  className="object-cover transition-transform duration-300 group-hover:scale-105"
+                  className="absolute inset-0 h-full w-full object-cover transition-transform duration-300 group-hover:scale-105"
                 />
               </div>
 

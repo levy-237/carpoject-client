@@ -1,4 +1,3 @@
-import Image from "next/image";
 import Link from "next/link";
 import FavoriteListingButton from "@/components/listings/FavoriteListingButton";
 import type { Listing } from "@/lib/listings";
@@ -101,11 +100,10 @@ export default function ListingCard({
       className="group flex min-w-0 w-full flex-col overflow-hidden rounded-2xl border border-gray-200 bg-white shadow-sm transition-shadow duration-300 hover:shadow-md md:h-100 md:flex-row"
     >
       <div className="relative aspect-[4/3] w-full shrink-0 overflow-hidden bg-gray-100 md:aspect-auto md:h-full md:w-[40%]">
-        <Image
+        <img
           src={listing.cover_image?.image ?? "/placeholder.png"}
           alt={listing.title}
-          fill
-          className="object-contain transition-transform duration-300 group-hover:scale-105"
+          className="absolute inset-0 h-full w-full object-contain transition-transform duration-300 group-hover:scale-105"
         />
       </div>
 

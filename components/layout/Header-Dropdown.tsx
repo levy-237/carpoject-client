@@ -20,20 +20,21 @@ export default function HeaderDropdown({
     >
       <div className="flex w-[70%] flex-row flex-wrap items-center justify-around gap-10 max-sm:w-full max-sm:flex-col max-sm:items-center">
         {found_item.map((dropdownItem) => (
-          <Link
-            href={dropdownItem.link}
-            key={dropdownItem.id}
-            className="flex flex-col flex-wrap items-center justify-center gap-2 max-sm:flex-col"
-          >
-            <img
-              src={dropdownItem.icon}
-              alt={dropdownItem.title}
-              className="w-55 h-30"
-            />
-            <p className={`text-sm font-semibold mt-2 ${sidebarLinkClass}`}>
-              {dropdownItem.title}
-            </p>
-          </Link>
+          <div key={dropdownItem.id} onClick={handleMouseLeave}>
+            <Link
+              href={dropdownItem.link}
+              className="group flex flex-col flex-wrap items-center justify-center gap-2 max-sm:flex-col"
+            >
+              <img
+                src={dropdownItem.icon}
+                alt={dropdownItem.title}
+                className="h-30 w-55 object-contain transition-transform duration-300 group-hover:scale-105"
+              />
+              <p className={`text-sm font-semibold mt-2 ${sidebarLinkClass}`}>
+                {dropdownItem.title}
+              </p>
+            </Link>
+          </div>
         ))}
       </div>
 
@@ -41,21 +42,31 @@ export default function HeaderDropdown({
       <div className="h-px w-full bg-gray-200 sm:hidden" />
 
       <div className="flex w-[30%] flex-col gap-1 pl-10 text-sm font-medium max-sm:pt-5">
-        <Link href="/" className={sidebarLinkClass}>
-          Alle Fahrzeuge
-        </Link>
-        <Link href="/" className={sidebarLinkClass}>
-          Budget Fahrzeuge
-        </Link>
-        <Link href="/" className={sidebarLinkClass}>
-          Luxus Fahrzeuge
-        </Link>
-        <Link href="/" className={sidebarLinkClass}>
-          Elektrische Fahrzeuge
-        </Link>
-        <Link href="/" className={sidebarLinkClass}>
-          Long range Fahrzeuge
-        </Link>
+        <div onClick={handleMouseLeave} className="w-fit">
+          <Link href="/" className={sidebarLinkClass}>
+            Alle Fahrzeuge
+          </Link>
+        </div>
+        <div onClick={handleMouseLeave} className="w-fit">
+          <Link href="/" className={sidebarLinkClass}>
+            Budget Fahrzeuge
+          </Link>
+        </div>
+        <div onClick={handleMouseLeave} className="w-fit">
+          <Link href="/" className={sidebarLinkClass}>
+            Luxus Fahrzeuge
+          </Link>
+        </div>
+        <div onClick={handleMouseLeave} className="w-fit">
+          <Link href="/" className={sidebarLinkClass}>
+            Elektrische Fahrzeuge
+          </Link>
+        </div>
+        <div onClick={handleMouseLeave} className="w-fit">
+          <Link href="/" className={sidebarLinkClass}>
+            Long range Fahrzeuge
+          </Link>
+        </div>
       </div>
     </div>
   );

@@ -1,7 +1,6 @@
 "use client";
 
 import { AuthMeSuccessResponse, logout } from "@/actions/authActions";
-import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
@@ -46,12 +45,9 @@ export function Header({
       <nav className="flex h-16 w-full items-center px-6">
         <div className="flex flex-1 items-center w-fit">
           <Link href="/">
-            <Image
+            <img
               src="/logo.png"
               alt="Car Project logo"
-              width={160}
-              height={80}
-              priority
               className="h-12 w-auto object-contain"
               onMouseEnter={() => handleMouseLeave()}
             />

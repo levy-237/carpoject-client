@@ -1,6 +1,5 @@
 "use client";
 
-import Image from "next/image";
 import { useState } from "react";
 import type { Listing } from "@/lib/listings";
 
@@ -27,7 +26,7 @@ export default function ListingImageGallery({ listing }: { listing: Listing }) {
         <img
           src={activeImage?.image ?? "/placeholder.png"}
           alt={listing.title}
-          className="object-contain"
+          className="absolute inset-0 h-full w-full object-contain"
         />
       </div>
 
@@ -47,7 +46,7 @@ export default function ListingImageGallery({ listing }: { listing: Listing }) {
               <img
                 src={image.image}
                 alt={`${listing.title} ${index + 1}`}
-                className="object-cover"
+                className="absolute inset-0 h-full w-full object-cover"
               />
             </button>
           ))}
