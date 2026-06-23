@@ -1,14 +1,29 @@
 "use client";
 
+import { AuthMeSuccessResponse, logout } from "@/actions/authActions";
 import Image from "next/image";
-import { useState } from "react";
-import HeaderDropdown from "./Header-Dropdown";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { useState } from "react";
 import BurgerMenu from "./BurgerMenu";
+import HeaderDropdown from "./Header-Dropdown";
 import { NAV_ITEMS } from "@/lib/nav-items";
 
-export function Header() {
+export function Header({
+  isAuthenticated,
+  profile,
+}: {
+  isAuthenticated: boolean;
+  profile: AuthMeSuccessResponse | null;
+}) {
+  const router = useRouter();
   const [isHovered, setIsHovered] = useState<string | boolean>(false);
+
+  async function handleLogout() {
+    await logout();
+    router.push("/login");
+    router.refresh();
+  }
 
   const handleMouseEnter = (item: string) => {
     setIsHovered(item);
@@ -19,6 +34,12 @@ export function Header() {
       setIsHovered(false);
     }
   };
+
+  const hasProfilePicture = Boolean(profile?.picture);
+  const profileImageSrc = profile?.picture ?? "/user-image.svg";
+  const profileImageAlt = profile?.first_name
+    ? `${profile.first_name} Profilbild`
+    : "User profile";
 
   return (
     <header className="flex flex-col bg-white relative text-gray-900">
@@ -51,15 +72,41 @@ export function Header() {
           ))}
         </nav>
 
-        <div className="flex flex-1 items-center justify-end max-md:hidden">
-          <Image
-            src="/user-image.svg"
-            alt="User profile"
-            width={28}
-            height={28}
-            className="h-7 w-7"
-            onMouseEnter={() => handleMouseLeave()}
-          />
+        <div className="flex flex-1 items-center justify-end gap-4 max-md:hidden">
+          {isAuthenticated ? (
+            <>
+              <Link href="/me" onMouseEnter={() => handleMouseLeave()}>
+                <Image
+                  src={profileImageSrc}
+                  alt={profileImageAlt}
+                  width={hasProfilePicture ? 40 : 28}
+                  height={hasProfilePicture ? 40 : 28}
+                  className={
+                    hasProfilePicture
+                      ? "h-10 w-10 rounded-full object-cover"
+                      : "h-7 w-7"
+                  }
+                />
+              </Link>
+
+              <button
+                type="button"
+                onClick={handleLogout}
+                className="text-sm font-semibold text-gray-700 transition-colors duration-200 hover:text-gray-900"
+              >
+                Abmelden
+              </button>
+            </>
+          ) : (
+            <Link href="/login">
+              <button
+                type="button"
+                className="text-sm font-semibold text-gray-700 transition-colors duration-200 hover:text-gray-900"
+              >
+                Anmelden
+              </button>
+            </Link>
+          )}
         </div>
 
         <div className="flex flex-1 items-center justify-end md:hidden">
