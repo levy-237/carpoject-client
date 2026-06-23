@@ -61,7 +61,7 @@ export default function DetailSearchModal() {
 
       {isOpen && (
         <div
-          className="fixed inset-0 z-50 flex items-start justify-center overflow-y-auto bg-black/50 p-4 sm:p-8"
+          className="fixed inset-0 z-[70] flex items-start justify-center overflow-y-auto bg-black/50 p-4 sm:p-8"
           onClick={() => setIsOpen(false)}
           role="presentation"
         >
