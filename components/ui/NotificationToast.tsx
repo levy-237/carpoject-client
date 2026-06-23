@@ -27,7 +27,7 @@ export default function NotificationToast({
     <div
       role="status"
       aria-live="polite"
-      className="fadeIn pointer-events-none fixed inset-x-4 top-20 z-[80] flex justify-center sm:inset-x-auto sm:right-6 sm:top-24 sm:justify-end"
+      className="fadeIn pointer-events-none fixed inset-x-4 top-10 z-[80] flex justify-center sm:top-24"
     >
       <div
         className={`pointer-events-auto flex max-w-sm items-start gap-3 rounded-2xl px-4 py-3 text-sm font-medium shadow-lg ${colorClasses[color]}`}
