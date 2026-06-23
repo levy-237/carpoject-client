@@ -1,12 +1,23 @@
 "use client";
 
 import { useState } from "react";
+import { useRouter } from "next/navigation";
+import { createSerializer } from "nuqs/server";
 import DropDownFilter, { type SelectedFilterIds } from "./DropDownFilter";
 import DetailSearchModal from "./DetailSearchModal";
 import FiltersDelete from "./FiltersDelete";
 import SearchBar from "./SearchBar";
+import {
+  detailSearchParsers,
+  fromFilterToApiUrlSearch,
+  getResetDetailSearchState,
+} from "@/lib/detail-search";
+
+const serializeDetailSearch = createSerializer(detailSearchParsers);
 
 export default function LandingSearchBar() {
+  const router = useRouter();
+  const [search, setSearch] = useState("");
   const [selectedBrands, setSelectedBrands] = useState<SelectedFilterIds>([]);
   const [selectedModels, setSelectedModels] = useState<SelectedFilterIds>([]);
   const [selectedTrims, setSelectedTrims] = useState<SelectedFilterIds>([]);
@@ -18,7 +29,23 @@ export default function LandingSearchBar() {
     [],
   );
 
+  function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
+    event.preventDefault();
+
+    const body = {
+      ...getResetDetailSearchState(),
+      search: search.trim() || null,
+      brand: selectedBrands.length > 0 ? selectedBrands : null,
+      model: selectedModels.length > 0 ? selectedModels : null,
+      modeltrim: selectedTrims.length > 0 ? selectedTrims : null,
+      body: selectedBodyTypes.length > 0 ? selectedBodyTypes : null,
+      province: selectedProvince.length > 0 ? selectedProvince : null,
+    };
+    router.push(`/listings${serializeDetailSearch(body)}`);
+  }
+
   const handleReset = () => {
+    setSearch("");
     setSelectedBrands([]);
     setSelectedModels([]);
     setSelectedTrims([]);
@@ -28,8 +55,11 @@ export default function LandingSearchBar() {
 
   return (
     <section className="flex h-fit items-center justify-center px-4 py-30 max-md:py-5">
-      <div className="w-full max-w-4xl rounded-3xl border border-gray-200 bg-white p-10 shadow-lg">
-        <SearchBar onChange={() => {}} />
+      <form
+        onSubmit={handleSubmit}
+        className="w-full max-w-4xl rounded-3xl border border-gray-200 bg-white p-10 shadow-lg"
+      >
+        <SearchBar value={search} onChange={setSearch} />
 
         <div className="mt-5 grid grid-cols-1 gap-3 sm:grid-cols-3">
           <DropDownFilter
@@ -40,7 +70,7 @@ export default function LandingSearchBar() {
             searchable
           />
           <DropDownFilter
-            apiName="cars/models"
+            apiName={`cars/models${fromFilterToApiUrlSearch(selectedBrands)}`}
             name="Modell"
             value={selectedModels}
             onChange={setSelectedModels}
@@ -48,7 +78,7 @@ export default function LandingSearchBar() {
             searchable
           />
           <DropDownFilter
-            apiName="cars/trims"
+            apiName={`cars/trims${fromFilterToApiUrlSearch(selectedModels)}`}
             name="Trim"
             value={selectedTrims}
             disabled={selectedModels.length === 0}
@@ -75,7 +105,7 @@ export default function LandingSearchBar() {
           />
           <div className="w-full flex justify-center">
             <button
-              type="button"
+              type="submit"
               className="w-[70%]  rounded-full bg-gray-900 px-8 py-3 text-sm font-semibold text-white transition-colors duration-200 hover:bg-gray-700"
             >
               Suchen
@@ -87,7 +117,7 @@ export default function LandingSearchBar() {
           <FiltersDelete onReset={handleReset} />
           <DetailSearchModal />
         </div>
-      </div>
+      </form>
     </section>
   );
 }

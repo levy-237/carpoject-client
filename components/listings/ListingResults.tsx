@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import DetailSearchModal from "@/components/filters/DetailSearchModal";
 import { fetchListings, type Listing } from "@/lib/listings";
 import ListingCard from "./ListingCard";
+import ListingResultsEmpty from "./ListingResultsEmpty";
 import Pagination from "./Pagination";
 import ListingResultsSkeleton from "../skeletons&&errors/ListingResultsSkeleton";
 import { useQueryStates } from "nuqs";
@@ -108,9 +109,7 @@ export default function ListingResults({ user }: { user: UserProfile | null }) {
           <Pagination count={count} />{" "}
         </>
       ) : (
-        <h1 className="text-xl text-gray-500 text-center mt-10 ">
-          Keine Ergebnisse gefunden
-        </h1>
+        <ListingResultsEmpty filters={filters} />
       )}
     </section>
   );

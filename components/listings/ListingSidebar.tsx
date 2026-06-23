@@ -10,6 +10,7 @@ import RangeInput from "@/components/filters/RangeInput";
 import SearchBar from "@/components/filters/SearchBar";
 import {
   DetailSearchFormState,
+  fromFilterToApiUrlSearch,
   getDefaultSideBarSearchFormState,
   ORDERING_OPTIONS,
   sideBarSearchParsers,
@@ -104,19 +105,26 @@ export default function ListingSidebar() {
         apiName="cars/brands"
         name="Marke"
         value={brand}
-        onChange={(brand) => setBrand(brand)}
+        onChange={(brand) => {
+          setBrand(brand);
+          setModel([]);
+          setModeltrim([]);
+        }}
         searchable
       />
       <DropDownFilter
-        apiName="cars/models"
+        apiName={`cars/models${fromFilterToApiUrlSearch(brand)}`}
         name="Modell"
         value={model}
-        onChange={(model) => setModel(model)}
+        onChange={(model) => {
+          setModel(model);
+          setModeltrim([]);
+        }}
         disabled={brand.length === 0}
         searchable
       />
       <DropDownFilter
-        apiName="cars/trims"
+        apiName={`cars/trims${fromFilterToApiUrlSearch(model)}`}
         name="Trim"
         value={modeltrim}
         disabled={model.length === 0}
