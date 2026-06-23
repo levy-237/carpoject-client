@@ -41,7 +41,6 @@ export type UserProfile = {
 
 export interface AuthMeSuccessResponse extends UserProfile {
   success: true;
-  accessToken?: string | null;
 }
 
 export type AuthMeErrorResponse = {

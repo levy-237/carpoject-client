@@ -76,11 +76,9 @@ export function Header({
           {isAuthenticated ? (
             <>
               <Link href="/me" onMouseEnter={() => handleMouseLeave()}>
-                <Image
+                <img
                   src={profileImageSrc}
                   alt={profileImageAlt}
-                  width={hasProfilePicture ? 40 : 28}
-                  height={hasProfilePicture ? 40 : 28}
                   className={
                     hasProfilePicture
                       ? "h-10 w-10 rounded-full object-cover"

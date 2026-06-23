@@ -81,8 +81,6 @@ export type Listing = {
 
   description: string;
   view_count: number;
-
-  is_favourite: boolean;
   is_online: boolean;
   is_premium: boolean;
   is_sold: boolean;
@@ -94,7 +92,7 @@ export type Listing = {
   cover_image: ListingImage | null;
 };
 
-type ListingsResponse = {
+export type ListingsResponse = {
   count: number;
   next: string | null;
   previous: string | null;

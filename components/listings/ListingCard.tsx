@@ -1,5 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
+import FavoriteListingButton from "@/components/listings/FavoriteListingButton";
 import type { Listing } from "@/lib/listings";
 import { formatMileage, formatPrice, formatYear } from "@/lib/listings";
 
@@ -66,7 +67,7 @@ function ViewCount({ count }: { count: number }) {
         fill="none"
         stroke="currentColor"
         strokeWidth={1.5}
-        className="size-4"
+        className="size-6"
         aria-hidden="true"
       >
         <path
@@ -85,7 +86,13 @@ function ViewCount({ count }: { count: number }) {
   );
 }
 
-export default function ListingCard({ listing }: { listing: Listing }) {
+export default function ListingCard({
+  listing,
+  isFavourite,
+}: {
+  listing: Listing;
+  isFavourite: boolean;
+}) {
   const year = formatYear(listing.makeyear);
 
   return (
@@ -150,7 +157,13 @@ export default function ListingCard({ listing }: { listing: Listing }) {
 
         <div className="mt-auto flex items-center justify-between gap-3 border-t border-gray-100 pt-4">
           <ListingOwner username={listing.owner.username} />
-          <ViewCount count={listing.view_count} />
+          <div className="flex shrink-0 items-center gap-3">
+            <ViewCount count={listing.view_count} />
+            <FavoriteListingButton
+              isFavourite={isFavourite}
+              listingId={listing.id}
+            />
+          </div>
         </div>
       </div>
     </Link>

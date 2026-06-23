@@ -29,6 +29,11 @@ export const setRefreshToken = async (refreshToken: string) => {
   });
 };
 
+export async function getAccessToken(): Promise<string | null> {
+  const cookieStore = await cookies();
+  return cookieStore.get(accessTokenCookie.name)?.value ?? null;
+}
+
 const removeAccessToken = async () => {
   const cookieStore = await cookies();
   cookieStore.delete(accessTokenCookie.name);
@@ -53,8 +58,7 @@ export function createAuthMeError(message: string): AuthMeErrorResponse {
 }
 
 export async function getUserProfile(): Promise<AuthMeResponse> {
-  const cookieStore = await cookies();
-  const accessToken = cookieStore.get(accessTokenCookie.name)?.value;
+  const accessToken = await getAccessToken();
 
   if (!accessToken) {
     return createAuthMeError("Could not get user profile");

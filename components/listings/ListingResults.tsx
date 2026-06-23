@@ -10,8 +10,9 @@ import { useQueryStates } from "nuqs";
 import { detailSearchParsers } from "@/lib/detail-search";
 import { useRouter } from "next/navigation";
 import FiltersDelete from "../filters/FiltersDelete";
+import { type UserProfile } from "@/actions/authActions";
 
-export default function ListingResults() {
+export default function ListingResults({ user }: { user: UserProfile | null }) {
   const router = useRouter();
   const [count, setCount] = useState(0);
   const [results, setResults] = useState<Listing[]>([]);
@@ -92,9 +93,17 @@ export default function ListingResults() {
             </div>
           </div>
           <div className="flex flex-col gap-4">
-            {results.map((listing) => (
-              <ListingCard key={listing.id} listing={listing} />
-            ))}
+            {results.map((listing) => {
+              const isFavourite =
+                user?.favourite_listings.includes(listing.id) || false;
+              return (
+                <ListingCard
+                  key={listing.id}
+                  listing={listing}
+                  isFavourite={isFavourite}
+                />
+              );
+            })}
           </div>
           <Pagination count={count} />{" "}
         </>
