@@ -1,6 +1,8 @@
 "use client";
 
 import { toggleFavourite } from "@/actions/listingActions";
+import NotificationToast from "@/components/ui/NotificationToast";
+import useNotification from "@/hooks/useNotification";
 import { useState } from "react";
 
 function Spinner() {
@@ -66,6 +68,13 @@ export default function FavoriteListingButton({
 }: FavoriteListingButtonProps) {
   const [isFavouriteState, setIsFavouriteState] = useState(isFavourite);
   const [isPending, setIsPending] = useState(false);
+  const {
+    showNotification,
+    handleNotification,
+    dismissNotification,
+    notificationText,
+    notificationColor,
+  } = useNotification();
 
   async function handleClick(event: React.MouseEvent<HTMLButtonElement>) {
     event.preventDefault();
@@ -78,7 +87,7 @@ export default function FavoriteListingButton({
       if (response.success) {
         setIsFavouriteState((prev) => !prev);
       } else {
-        alert(response.message);
+        handleNotification(response.message, "error");
       }
     } finally {
       setIsPending(false);
@@ -92,20 +101,33 @@ export default function FavoriteListingButton({
       : "Zu Favoriten hinzufügen";
 
   return (
-    <button
-      type="button"
-      onClick={handleClick}
-      disabled={isPending}
-      className={`inline-flex shrink-0 items-center text-sm transition-colors disabled:cursor-not-allowed disabled:opacity-60 ${
-        isFavouriteState
-          ? "text-blue-600 hover:text-blue-700"
-          : "text-gray-500 hover:text-blue-600"
-      }`}
-      aria-label={label}
-      aria-busy={isPending}
-      title={label}
-    >
-      {isPending ? <Spinner /> : <ParkingSignIcon active={isFavouriteState} />}
-    </button>
+    <>
+      <button
+        type="button"
+        onClick={handleClick}
+        disabled={isPending}
+        className={`inline-flex shrink-0 items-center text-sm transition-colors disabled:cursor-not-allowed disabled:opacity-60 ${
+          isFavouriteState
+            ? "text-blue-600 hover:text-blue-700"
+            : "text-gray-500 hover:text-blue-600"
+        }`}
+        aria-label={label}
+        aria-busy={isPending}
+        title={label}
+      >
+        {isPending ? (
+          <Spinner />
+        ) : (
+          <ParkingSignIcon active={isFavouriteState} />
+        )}
+      </button>
+
+      <NotificationToast
+        show={showNotification}
+        text={notificationText}
+        color={notificationColor}
+        onDismiss={dismissNotification}
+      />
+    </>
   );
 }

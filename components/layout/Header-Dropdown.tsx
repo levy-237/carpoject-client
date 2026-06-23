@@ -59,11 +59,6 @@ export default function HeaderDropdown({
         </div>
         <div onClick={handleMouseLeave} className="w-fit">
           <Link href="/" className={sidebarLinkClass}>
-            Elektrische Fahrzeuge
-          </Link>
-        </div>
-        <div onClick={handleMouseLeave} className="w-fit">
-          <Link href="/" className={sidebarLinkClass}>
             Long range Fahrzeuge
           </Link>
         </div>

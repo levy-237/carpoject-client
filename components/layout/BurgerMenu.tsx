@@ -161,7 +161,7 @@ export default function BurgerMenu() {
               })}
               <li className="border-b border-gray-100 pb-2">
                 <Link
-                  href="/account"
+                  href="/me"
                   className="flex items-center gap-3 py-3 text-base font-semibold text-gray-900 transition-colors hover:text-gray-600"
                   onClick={closeMenu}
                 >
