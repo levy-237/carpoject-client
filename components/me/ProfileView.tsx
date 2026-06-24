@@ -1,4 +1,5 @@
 import type { UserProfile } from "@/actions/authActions";
+import Link from "next/link";
 
 function formatDate(dateString: string) {
   return new Date(dateString).toLocaleDateString("de-DE", {
@@ -96,10 +97,7 @@ export default function ProfileView({ user }: { user: UserProfile }) {
             label="Straße & Hausnummer"
             value={user.streetname_number}
           />
-          <ProfileField
-            label="Bundesland"
-            value={user.province_detail.name}
-          />
+          <ProfileField label="Bundesland" value={user.province_detail.name} />
           <ProfileField label="Stadt" value={user.city_detail.name} />
         </ProfileSection>
 
@@ -115,12 +113,28 @@ export default function ProfileView({ user }: { user: UserProfile }) {
         </ProfileSection>
       </dl>
 
-      <button
-        type="button"
-        className="mt-8 w-full rounded-full bg-gray-900 py-3 text-sm font-semibold text-white transition-colors duration-200 hover:bg-gray-700"
-      >
-        Profil bearbeiten
-      </button>
+      <div className="mt-8 flex border-t border-gray-100 pt-8">
+        <Link
+          href="/me/edit"
+          className="inline-flex w-full items-center justify-center gap-2 rounded-full bg-gray-900 px-6 py-3 text-sm font-semibold text-white transition-colors duration-200 hover:bg-gray-700 sm:ml-auto sm:w-auto"
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth={1.75}
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            className="size-4 shrink-0"
+            aria-hidden="true"
+          >
+            <path d="M17 3a2.85 2.85 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5Z" />
+            <path d="m15 5 4 4" />
+          </svg>
+          Profil bearbeiten
+        </Link>
+      </div>
     </div>
   );
 }

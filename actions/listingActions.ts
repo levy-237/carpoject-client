@@ -1,14 +1,17 @@
 "use server";
 
 import { getAccessToken } from "@/lib/auth";
-import { AddListingSchema, type AddListingFormValues } from "@/schemas/schema";
+import {
+  AddListingSchema,
+  type AddListingFormValues,
+} from "@/schemas/listings";
 
 type ToggleFavouriteResponse = {
   success: boolean;
   message: string;
 };
 
-export type CreateListingResponse = {
+export type MutateListingResponse = {
   success: boolean;
   message: string;
   listingId?: number;
@@ -16,7 +19,7 @@ export type CreateListingResponse = {
 
 export async function createListing(
   data: AddListingFormValues,
-): Promise<CreateListingResponse> {
+): Promise<MutateListingResponse> {
   const accessToken = await getAccessToken();
 
   if (!accessToken) {
@@ -58,6 +61,57 @@ export async function createListing(
     success: true,
     message: "Anzeige wurde erstellt.",
     listingId: responseData.id,
+  };
+}
+
+export async function updateListing({
+  id,
+  data,
+}: {
+  id: number;
+  data: AddListingFormValues;
+}): Promise<MutateListingResponse> {
+  const accessToken = await getAccessToken();
+
+  if (!accessToken) {
+    return { success: false, message: "Nicht autorisiert." };
+  }
+
+  const parsed = AddListingSchema.safeParse(data);
+
+  if (!parsed.success) {
+    return {
+      success: false,
+      message: parsed.error.issues[0]?.message ?? "Ungültige Formulardaten.",
+    };
+  }
+
+  const response = await fetch(`${process.env.API_BASE_URL}listings/${id}/`, {
+    method: "PATCH",
+    headers: {
+      Authorization: `Bearer ${accessToken}`,
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(parsed.data),
+  });
+
+  const responseData = await response.json();
+
+  if (!response.ok) {
+    console.log("error", responseData);
+    return {
+      success: false,
+      message:
+        responseData.detail ||
+        responseData.error ||
+        "Anzeige konnte nicht aktualisiert werden.",
+    };
+  }
+
+  return {
+    success: true,
+    message: "Anzeige wurde aktualisiert.",
+    listingId: id,
   };
 }
 

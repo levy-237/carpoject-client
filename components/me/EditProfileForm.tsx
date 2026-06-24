@@ -1,22 +1,33 @@
 "use client";
 
-import { signUp } from "@/actions/authActions";
+import { updateProfile, type UserProfile } from "@/actions/authActions";
+import FieldError from "@/components/add-listings/FieldError";
 import SingleSelectFilter from "@/components/filters/SingleSelectFilter";
-import { CreateProfileFormValues, CreateProfileSchema } from "@/schemas/users";
+import { UpdateProfileFormValues, UpdateProfileSchema } from "@/schemas/users";
 import { zodResolver } from "@hookform/resolvers/zod";
+import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { Controller, useForm, useWatch } from "react-hook-form";
 
 const inputClass =
   "w-full rounded-lg border border-gray-200 px-3 py-2.5 text-sm outline-none transition-colors duration-200 placeholder:text-gray-400 focus:border-gray-400";
 
-function FieldError({ message }: { message?: string }) {
-  if (!message) return null;
-
-  return <span className="text-xs font-normal text-red-600">{message}</span>;
+function userToFormValues(user: UserProfile): UpdateProfileFormValues {
+  return {
+    first_name: user.first_name,
+    last_name: user.last_name,
+    username: user.username,
+    phone: user.phone,
+    streetname_number: user.streetname_number,
+    province: user.province,
+    city: user.city,
+    isCompany: !user.is_private,
+    company_name: user.company_name ?? "",
+    picture_file: undefined,
+  };
 }
 
-export default function SignUpForm() {
+export default function EditProfileForm({ user }: { user: UserProfile }) {
   const router = useRouter();
 
   const {
@@ -24,25 +35,12 @@ export default function SignUpForm() {
     control,
     handleSubmit,
     setValue,
-    resetField,
     setError,
+    resetField,
     formState: { errors, isSubmitting },
-  } = useForm<CreateProfileFormValues>({
-    resolver: zodResolver(CreateProfileSchema),
-    defaultValues: {
-      first_name: "",
-      last_name: "",
-      username: "",
-      email: "",
-      password: "",
-      phone: "",
-      streetname_number: "",
-      province: undefined,
-      city: undefined,
-      isCompany: false,
-      company_name: "",
-      picture_file: undefined,
-    },
+  } = useForm<UpdateProfileFormValues>({
+    resolver: zodResolver(UpdateProfileSchema),
+    defaultValues: userToFormValues(user),
   });
 
   const province = useWatch({ control, name: "province" });
@@ -50,39 +48,21 @@ export default function SignUpForm() {
 
   const cityApiName = province ? `city?relation=${province}` : "city";
 
-  async function onSubmit(data: CreateProfileFormValues) {
-    const formData = new FormData();
-    formData.append("username", data.username.trim());
-    formData.append("password", data.password);
-    formData.append("first_name", data.first_name.trim());
-    formData.append("last_name", data.last_name.trim());
-    formData.append("email", data.email.trim());
-    formData.append("province", String(data.province));
-    formData.append("city", String(data.city));
-    formData.append("is_private", data.isCompany ? "false" : "true");
-    formData.append("phone", data.phone.trim());
-    formData.append("streetname_number", data.streetname_number.trim());
-
-    if (data.isCompany) {
-      formData.append("company_name", data.company_name?.trim() ?? "");
-    }
-
-    if (data.picture_file) {
-      formData.append("picture_file", data.picture_file);
-    }
-
-    const result = await signUp(formData);
+  async function onSubmit(data: UpdateProfileFormValues) {
+    const result = await updateProfile({ data, id: user.id });
 
     if (!result.success) {
       setError("root", { message: result.message });
       return;
     }
 
-    router.push("/login");
+    router.push("/me");
+    router.refresh();
   }
 
   return (
     <form
+      noValidate
       onSubmit={handleSubmit(onSubmit)}
       className="mt-8 flex flex-col gap-4"
     >
@@ -128,30 +108,6 @@ export default function SignUpForm() {
       </label>
 
       <label className="flex flex-col gap-2 text-sm font-medium text-gray-700">
-        E-Mail
-        <input
-          type="email"
-          placeholder="john@example.com"
-          autoComplete="email"
-          className={inputClass}
-          {...register("email")}
-        />
-        <FieldError message={errors.email?.message} />
-      </label>
-
-      <label className="flex flex-col gap-2 text-sm font-medium text-gray-700">
-        Passwort
-        <input
-          type="password"
-          placeholder="••••••••"
-          autoComplete="new-password"
-          className={inputClass}
-          {...register("password")}
-        />
-        <FieldError message={errors.password?.message} />
-      </label>
-
-      <label className="flex flex-col gap-2 text-sm font-medium text-gray-700">
         Telefon
         <input
           type="tel"
@@ -177,10 +133,6 @@ export default function SignUpForm() {
         <Controller
           name="province"
           control={control}
-          rules={{
-            validate: (value) =>
-              value !== null || "Bitte wähle ein Bundesland aus.",
-          }}
           render={({ field, fieldState }) => (
             <div className="flex flex-col gap-2">
               <SingleSelectFilter
@@ -202,10 +154,6 @@ export default function SignUpForm() {
           key={province ?? "no-province"}
           name="city"
           control={control}
-          rules={{
-            validate: (value) =>
-              value !== null || "Bitte wähle eine Stadt aus.",
-          }}
           render={({ field, fieldState }) => (
             <div className="flex flex-col gap-2">
               <SingleSelectFilter
@@ -213,7 +161,7 @@ export default function SignUpForm() {
                 label="Stadt"
                 value={field.value}
                 onChange={field.onChange}
-                disabled={province === null}
+                disabled={!province}
                 placeholder="Stadt wählen"
               />
               <FieldError message={fieldState.error?.message} />
@@ -229,7 +177,7 @@ export default function SignUpForm() {
           <label className="flex items-center gap-3 text-sm font-medium text-gray-700">
             <input
               type="checkbox"
-              checked={field.value}
+              checked={field.value ?? false}
               onChange={(event) => {
                 const checked = event.target.checked;
                 field.onChange(checked);
@@ -251,12 +199,7 @@ export default function SignUpForm() {
             type="text"
             placeholder="Meine Firma GmbH"
             className={inputClass}
-            {...register("company_name", {
-              validate: (value, formValues) =>
-                !formValues.isCompany ||
-                value?.trim() !== "" ||
-                "Bitte gib einen Firmennamen an.",
-            })}
+            {...register("company_name")}
           />
           <FieldError message={errors.company_name?.message} />
         </label>
@@ -274,20 +217,31 @@ export default function SignUpForm() {
               name={name}
               ref={ref}
               onBlur={onBlur}
-              onChange={(event) => onChange(event.target.files?.[0] ?? null)}
+              onChange={(event) =>
+                onChange(event.target.files?.[0] ?? undefined)
+              }
               className="w-full rounded-lg border border-gray-200 px-3 py-2 text-sm file:mr-3 file:rounded-md file:border-0 file:bg-gray-100 file:px-3 file:py-1.5 file:text-sm file:font-medium file:text-gray-700"
             />
           </label>
         )}
       />
 
-      <button
-        type="submit"
-        disabled={isSubmitting}
-        className="mt-2 w-full rounded-full bg-gray-900 py-3 text-sm font-semibold text-white transition-colors duration-200 hover:bg-gray-700 disabled:opacity-60"
-      >
-        {isSubmitting ? "Registrierung..." : "Registrieren"}
-      </button>
+      <div className="mt-2 flex flex-col-reverse gap-3 sm:flex-row sm:items-center sm:justify-between">
+        <Link
+          href="/me"
+          className="text-center text-sm font-medium text-gray-600 transition-colors duration-200 hover:text-gray-900"
+        >
+          Abbrechen
+        </Link>
+
+        <button
+          type="submit"
+          disabled={isSubmitting}
+          className="rounded-full bg-gray-900 px-8 py-3 text-sm font-semibold text-white transition-colors duration-200 hover:bg-gray-700 disabled:opacity-60 sm:min-w-48"
+        >
+          {isSubmitting ? "Wird gespeichert..." : "Änderungen speichern"}
+        </button>
+      </div>
     </form>
   );
 }
