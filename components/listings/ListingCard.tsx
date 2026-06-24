@@ -87,10 +87,12 @@ function ViewCount({ count }: { count: number }) {
 
 export default function ListingCard({
   listing,
-  isFavourite,
+  isFavourite = false,
+  variant = "default",
 }: {
   listing: Listing;
   isFavourite: boolean;
+  variant?: "default" | "owner";
 }) {
   const year = formatYear(listing.makeyear);
 
@@ -154,14 +156,20 @@ export default function ListingCard({
         </div>
 
         <div className="mt-auto flex items-center justify-between gap-3 border-t border-gray-100 pt-4">
-          <ListingOwner username={listing.owner.username} />
-          <div className="flex shrink-0 items-center gap-3">
+          {variant === "default" ? (
+            <>
+              <ListingOwner username={listing.owner.username} />
+              <div className="flex shrink-0 items-center gap-3">
+                <ViewCount count={listing.view_count} />
+                <FavoriteListingButton
+                  isFavourite={isFavourite}
+                  listingId={listing.id}
+                />
+              </div>
+            </>
+          ) : (
             <ViewCount count={listing.view_count} />
-            <FavoriteListingButton
-              isFavourite={isFavourite}
-              listingId={listing.id}
-            />
-          </div>
+          )}
         </div>
       </div>
     </Link>

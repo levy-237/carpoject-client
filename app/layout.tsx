@@ -22,12 +22,17 @@ export default async function RootLayout({
 
   const response = isAuthenticated ? await getUserProfile() : null;
   const profile = response?.success ? response : null;
+  const isVerified = profile && profile.is_verified;
 
   return (
     <html lang="en" className="h-full antialiased">
       <body className="min-h-full flex flex-col">
         <Providers>
-          <Header isAuthenticated={isAuthenticated} profile={profile} />
+          <Header
+            isAuthenticated={isAuthenticated}
+            profile={profile}
+            isVerified={isVerified}
+          />
           {children}
           <AiPopUp />
         </Providers>

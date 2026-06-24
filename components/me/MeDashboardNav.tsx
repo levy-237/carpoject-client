@@ -5,7 +5,9 @@ import { usePathname } from "next/navigation";
 
 const NAV_ITEMS = [
   { href: "/me", label: "Profil", exact: true },
+  { href: "/me/listings", label: "Meine Anzeigen", exact: false },
   { href: "/me/favourites", label: "Favoriten", exact: false },
+  { href: "/me/change-password", label: "Passwort ändern", exact: false },
 ];
 
 function isActive(pathname: string, href: string, exact?: boolean) {

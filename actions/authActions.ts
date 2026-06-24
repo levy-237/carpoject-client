@@ -233,6 +233,56 @@ export async function resetPassword(
   };
 }
 
+export async function changePassword(
+  currentPassword: string,
+  newPassword: string,
+): Promise<RecoveryResponse> {
+  const accessToken = await getAccessToken();
+
+  if (!accessToken) {
+    return { success: false, message: "Nicht autorisiert." };
+  }
+
+  if (!currentPassword || !newPassword) {
+    return {
+      success: false,
+      message: "Bitte fülle beide Passwortfelder aus.",
+    };
+  }
+
+  const response = await fetch(
+    `${process.env.API_BASE_URL}users/change-password/`,
+    {
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        current_password: currentPassword,
+        new_password: newPassword,
+      }),
+    },
+  );
+
+  const data = await response.json();
+
+  if (!response.ok) {
+    return {
+      success: false,
+      message:
+        data.detail ||
+        data.error ||
+        "Passwort konnte nicht geändert werden.",
+    };
+  }
+
+  return {
+    success: true,
+    message: data.message || "Passwort wurde erfolgreich geändert.",
+  };
+}
+
 export async function sendUserVerification(): Promise<RecoveryResponse> {
   const accessToken = await getAccessToken();
 

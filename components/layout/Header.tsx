@@ -7,13 +7,16 @@ import { useState } from "react";
 import BurgerMenu from "./BurgerMenu";
 import HeaderDropdown from "./Header-Dropdown";
 import { NAV_ITEMS } from "@/lib/nav-items";
+import NotificationToast from "../ui/NotificationToast";
 
 export function Header({
   isAuthenticated,
   profile,
+  isVerified,
 }: {
   isAuthenticated: boolean;
   profile: AuthMeSuccessResponse | null;
+  isVerified: boolean | null;
 }) {
   const router = useRouter();
   const [isHovered, setIsHovered] = useState<string | boolean>(false);
@@ -71,6 +74,35 @@ export function Header({
         <div className="flex flex-1 items-center justify-end gap-4 max-md:hidden">
           {isAuthenticated ? (
             <>
+              <Link
+                href="/listings/add"
+                onMouseEnter={() => handleMouseLeave()}
+                onClick={(e) => {
+                  e.preventDefault();
+                  if (isVerified) {
+                    return router.push("/add-listings");
+                  } else {
+                    alert("you need to verify your email to create a listing");
+                  }
+                }}
+                className="inline-flex items-center gap-2 rounded-full bg-gray-900 px-4 py-2 text-sm font-semibold text-white shadow-sm transition-colors duration-200 hover:bg-gray-700"
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth={2}
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  className="size-4"
+                  aria-hidden="true"
+                >
+                  <path d="M12 5v14" />
+                  <path d="M5 12h14" />
+                </svg>
+                Anzeige erstellen
+              </Link>
               <Link href="/me" onMouseEnter={() => handleMouseLeave()}>
                 <img
                   src={profileImageSrc}
