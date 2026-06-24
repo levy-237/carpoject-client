@@ -34,12 +34,11 @@ export default function SingleSelectFilter({
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    if (disabled) {
-      setOptions([]);
-      return;
-    }
-
     const fetchOptions = async () => {
+      if (disabled) {
+        setOptions([]);
+        return;
+      }
       setIsLoading(true);
       setError(null);
 

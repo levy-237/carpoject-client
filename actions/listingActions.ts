@@ -1,11 +1,65 @@
 "use server";
 
 import { getAccessToken } from "@/lib/auth";
+import { AddListingSchema, type AddListingFormValues } from "@/schemas/schema";
 
 type ToggleFavouriteResponse = {
   success: boolean;
   message: string;
 };
+
+export type CreateListingResponse = {
+  success: boolean;
+  message: string;
+  listingId?: number;
+};
+
+export async function createListing(
+  data: AddListingFormValues,
+): Promise<CreateListingResponse> {
+  const accessToken = await getAccessToken();
+
+  if (!accessToken) {
+    return { success: false, message: "Nicht autorisiert." };
+  }
+
+  const parsed = AddListingSchema.safeParse(data);
+
+  if (!parsed.success) {
+    return {
+      success: false,
+      message: parsed.error.issues[0]?.message ?? "Ungültige Formulardaten.",
+    };
+  }
+
+  const response = await fetch(`${process.env.API_BASE_URL}listings/`, {
+    method: "POST",
+    headers: {
+      Authorization: `Bearer ${accessToken}`,
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(parsed.data),
+  });
+
+  const responseData = await response.json();
+
+  if (!response.ok) {
+    console.log("error", responseData);
+    return {
+      success: false,
+      message:
+        responseData.detail ||
+        responseData.error ||
+        "Anzeige konnte nicht erstellt werden.",
+    };
+  }
+
+  return {
+    success: true,
+    message: "Anzeige wurde erstellt.",
+    listingId: responseData.id,
+  };
+}
 
 export async function toggleFavourite(
   listingId: number,
