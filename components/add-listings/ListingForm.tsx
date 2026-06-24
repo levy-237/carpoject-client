@@ -1,6 +1,10 @@
 "use client";
 
-import { createListing } from "@/actions/listingActions";
+import {
+  createListing,
+  MutateListingResponse,
+  updateListing,
+} from "@/actions/listingActions";
 import BooleanSelect from "@/components/filters/BooleanSelect";
 import FilterSection from "@/components/filters/FilterSection";
 import SingleSelectFilter from "@/components/filters/SingleSelectFilter";
@@ -8,7 +12,10 @@ import type { BooleanFilterValue } from "@/lib/detail-search";
 import FieldError from "./FieldError";
 import FormInput from "./FormInput";
 import FormTextarea from "./FormTextarea";
-import { AddListingSchema, type AddListingFormValues } from "@/schemas/schema";
+import {
+  AddListingSchema,
+  type AddListingFormValues,
+} from "@/schemas/listings";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useRouter } from "next/navigation";
 import {
@@ -24,7 +31,15 @@ function toBooleanSelectValue(value: boolean | undefined): BooleanFilterValue {
   return "false";
 }
 
-export default function ListingForm() {
+export default function ListingForm({
+  listing,
+  variant,
+  id,
+}: {
+  listing?: AddListingFormValues;
+  variant: "create" | "edit";
+  id?: number;
+}) {
   const router = useRouter();
 
   const {
@@ -36,7 +51,7 @@ export default function ListingForm() {
     formState: { errors, isSubmitting },
   } = useForm<AddListingFormValues>({
     resolver: zodResolver(AddListingSchema),
-    defaultValues: {
+    defaultValues: listing || {
       heat_pump: false,
       garantie: false,
       pickerl: false,
@@ -46,7 +61,10 @@ export default function ListingForm() {
   });
 
   const onSubmit: SubmitHandler<AddListingFormValues> = async (data) => {
-    const result = await createListing(data);
+    const result =
+      variant === "edit" && id
+        ? await updateListing({ id, data })
+        : await createListing(data);
 
     if (!result.success) {
       setError("root", { message: result.message });
@@ -302,34 +320,39 @@ export default function ListingForm() {
               </div>
             )}
           />
-          <Controller
-            name="is_sold"
-            control={control}
-            render={({ field, fieldState }) => (
-              <div className="flex flex-col gap-2">
-                <BooleanSelect
-                  label="Verkauft"
-                  value={toBooleanSelectValue(field.value)}
-                  onChange={(value) => field.onChange(value === "true")}
-                />
-                <FieldError message={fieldState.error?.message} />
-              </div>
-            )}
-          />
-          <Controller
-            name="is_reserved"
-            control={control}
-            render={({ field, fieldState }) => (
-              <div className="flex flex-col gap-2">
-                <BooleanSelect
-                  label="Reserviert"
-                  value={toBooleanSelectValue(field.value)}
-                  onChange={(value) => field.onChange(value === "true")}
-                />
-                <FieldError message={fieldState.error?.message} />
-              </div>
-            )}
-          />
+
+          {variant === "edit" && (
+            <>
+              <Controller
+                name="is_sold"
+                control={control}
+                render={({ field, fieldState }) => (
+                  <div className="flex flex-col gap-2">
+                    <BooleanSelect
+                      label="Verkauft"
+                      value={toBooleanSelectValue(field.value)}
+                      onChange={(value) => field.onChange(value === "true")}
+                    />
+                    <FieldError message={fieldState.error?.message} />
+                  </div>
+                )}
+              />
+              <Controller
+                name="is_reserved"
+                control={control}
+                render={({ field, fieldState }) => (
+                  <div className="flex flex-col gap-2">
+                    <BooleanSelect
+                      label="Reserviert"
+                      value={toBooleanSelectValue(field.value)}
+                      onChange={(value) => field.onChange(value === "true")}
+                    />
+                    <FieldError message={fieldState.error?.message} />
+                  </div>
+                )}
+              />
+            </>
+          )}
         </div>
       </FilterSection>
 

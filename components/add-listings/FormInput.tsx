@@ -1,5 +1,5 @@
 import type { Path, UseFormRegister } from "react-hook-form";
-import type { AddListingFormValues } from "@/schemas/schema";
+import type { AddListingFormValues } from "@/schemas/listings";
 import FieldError from "./FieldError";
 
 const inputClass =

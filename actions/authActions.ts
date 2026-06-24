@@ -8,6 +8,7 @@ import {
 } from "@/lib/auth";
 import { cookies } from "next/headers";
 import { revalidatePath } from "next/cache";
+import { UpdateProfileFormValues, UpdateProfileSchema } from "@/schemas/users";
 
 type LoginProps = {
   username: string;
@@ -271,9 +272,7 @@ export async function changePassword(
     return {
       success: false,
       message:
-        data.detail ||
-        data.error ||
-        "Passwort konnte nicht geändert werden.",
+        data.detail || data.error || "Passwort konnte nicht geändert werden.",
     };
   }
 
@@ -357,5 +356,77 @@ export async function verifyUserEmail(code: string): Promise<RecoveryResponse> {
   return {
     success: true,
     message: data.message || data.detail || "E-Mail wurde bestätigt.",
+  };
+}
+
+export async function updateProfile({
+  data,
+  id,
+}: {
+  data: UpdateProfileFormValues;
+  id: number;
+}): Promise<RecoveryResponse> {
+  console.log(data);
+
+  const accessToken = await getAccessToken();
+
+  if (!accessToken) {
+    return { success: false, message: "Nicht autorisiert." };
+  }
+
+  const validatedData = UpdateProfileSchema.safeParse(data);
+
+  const formData = new FormData();
+  formData.append("username", data.username.trim());
+  formData.append("first_name", data.first_name.trim());
+  formData.append("last_name", data.last_name.trim());
+  formData.append("province", String(data.province));
+  formData.append("city", String(data.city));
+  formData.append("is_private", data.isCompany ? "false" : "true");
+  formData.append("phone", data.phone.trim());
+  formData.append("streetname_number", data.streetname_number.trim());
+
+  if (data.isCompany) {
+    formData.append("company_name", data.company_name?.trim() ?? "");
+  }
+
+  if (data.picture_file) {
+    formData.append("picture_file", data.picture_file);
+  }
+
+  if (!validatedData.success) {
+    return {
+      success: false,
+      message: validatedData.error.message,
+    };
+  }
+
+  const response = await fetch(`${process.env.API_BASE_URL}users/${id}/`, {
+    method: "PATCH",
+    headers: {
+      Authorization: `Bearer ${accessToken}`,
+    },
+    body: formData,
+  });
+
+  const responseData = await response.json();
+
+  if (!response.ok) {
+    return {
+      success: false,
+      message:
+        responseData.detail ||
+        responseData.error ||
+        "Profil konnte nicht aktualisiert werden.",
+    };
+  }
+
+  revalidatePath("/me");
+
+  console.log(responseData);
+
+  return {
+    success: true,
+    message: responseData.message || "Profil wurde aktualisiert.",
   };
 }
