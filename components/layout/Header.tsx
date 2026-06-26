@@ -57,7 +57,7 @@ export function Header({
           </Link>
         </div>
 
-        <nav className="flex flex-1 items-center justify-center gap-8 font-semibold max-md:hidden">
+        <nav className="flex flex-1 items-center justify-center gap-8 font-semibold max-lg:hidden">
           {NAV_ITEMS.map((item) => (
             <Link
               href={item.link}
@@ -71,7 +71,7 @@ export function Header({
           ))}
         </nav>
 
-        <div className="flex flex-1 items-center justify-end gap-4 max-md:hidden">
+        <div className="flex flex-1 items-center justify-end gap-4 max-lg:hidden">
           {isAuthenticated ? (
             <>
               <Link
@@ -135,7 +135,7 @@ export function Header({
           )}
         </div>
 
-        <div className="flex flex-1 items-center justify-end md:hidden">
+        <div className="flex flex-1 items-center justify-end lg:hidden">
           <BurgerMenu />
         </div>
       </nav>

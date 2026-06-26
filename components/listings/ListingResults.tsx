@@ -14,14 +14,14 @@ import {
   useQueryStates,
 } from "nuqs";
 import { detailSearchParsers } from "@/lib/detail-search";
-import { useRouter, useSearchParams } from "next/navigation";
+import { useRouter } from "next/navigation";
 import FiltersDelete from "../filters/FiltersDelete";
 import { type UserProfile } from "@/actions/authActions";
 import ListingCompareButton from "./ListingCompareButton";
 
 export default function ListingResults({ user }: { user: UserProfile | null }) {
   const router = useRouter();
-  const searchParams = useSearchParams();
+
   const [count, setCount] = useState(0);
   const [results, setResults] = useState<Listing[]>([]);
   const [isLoading, setIsLoading] = useState(true);

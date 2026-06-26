@@ -52,8 +52,8 @@ export default function BurgerMenu() {
         type="button"
         aria-label="Open menu"
         aria-expanded={isOpen}
-        className="relative z-[60] flex size-10 flex-col items-center justify-center gap-1.5 md:hidden"
-        onClick={() => setIsOpen(true)}
+        className="relative z-[60] flex size-10 flex-col items-center justify-center gap-1.5 lg:hidden"
+        onClick={() => setIsOpen(!isOpen)}
       >
         <span
           className={`block h-0.5 w-6 bg-gray-900 transition-all duration-300 ${isOpen ? "translate-y-2 rotate-45" : ""}`}
@@ -67,7 +67,7 @@ export default function BurgerMenu() {
       </button>
 
       {isOpen && (
-        <div className="fadeIn fixed inset-0 z-50 flex flex-col bg-white md:hidden">
+        <div className="fadeIn fixed inset-0 z-50 flex flex-col bg-white lg:hidden">
           <div className="flex h-16 shrink-0 items-center justify-between border-b border-gray-100 px-6">
             <Link href="/" onClick={closeMenu}>
               <img
@@ -76,28 +76,6 @@ export default function BurgerMenu() {
                 className="h-10 w-auto object-contain"
               />
             </Link>
-
-            <button
-              type="button"
-              aria-label="Close menu"
-              className="flex size-10 items-center justify-center rounded-full text-gray-900 transition-colors hover:bg-gray-100"
-              onClick={closeMenu}
-            >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                className="size-5"
-                aria-hidden="true"
-              >
-                <path d="M18 6 6 18" />
-                <path d="m6 6 12 12" />
-              </svg>
-            </button>
           </div>
 
           <nav className="flex-1 overflow-y-auto px-6 py-4">

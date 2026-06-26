@@ -9,7 +9,7 @@ export default async function ListingsPage() {
   const response = await getUserProfile();
   const user = response?.success ? response : null;
   return (
-    <main className="flex w-full gap-6 px-4 py-10 flex-row items-start justify-center">
+    <main className="flex w-full gap-6 px-4 py-10 flex-row items-start justify-center mt-5">
       <Suspense fallback={<ListingSidebarSkeleton />}>
         <ListingSidebar />
       </Suspense>
