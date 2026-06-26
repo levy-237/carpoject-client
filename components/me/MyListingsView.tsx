@@ -117,6 +117,8 @@ export default function MyListingsView({
                   listing={listing}
                   isFavourite={false}
                   variant="owner"
+                  handleAddToCompare={() => {}}
+                  isInCompare={() => false}
                 />
                 <div className="flex shrink-0 flex-col gap-2 pt-1">
                   <EditListingButton listingId={listing.id} />
