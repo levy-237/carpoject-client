@@ -8,14 +8,14 @@ import { ToastProvider } from "@/components/ui/ToastProvider";
 import { cookies } from "next/headers";
 import { SITE_NAME } from "@/lib/metadata";
 import { getUserProfile, refreshTokenCookie } from "@/lib/auth";
+import { Analytics } from "@vercel/analytics/next";
 
 export const metadata: Metadata = {
   title: {
     default: SITE_NAME,
     template: `%s | ${SITE_NAME}`,
   },
-  description:
-    "Marktplatz für Elektroautos — suchen, vergleichen, finden.",
+  description: "Marktplatz für Elektroautos — suchen, vergleichen, finden.",
 };
 
 export default async function RootLayout({
@@ -44,6 +44,7 @@ export default async function RootLayout({
           <Footer />
           <AiPopUp />
           <ToastProvider />
+          <Analytics />
         </Providers>
       </body>
     </html>
