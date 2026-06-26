@@ -1,7 +1,11 @@
 "use client";
 
 import { Suspense, useEffect, useState } from "react";
+import { useQueryStates } from "nuqs";
 import DetailSearchForm from "./DetailSearchForm";
+import ActiveFilterCountBadge from "./ActiveFilterCountBadge";
+import { detailSearchParsers } from "@/lib/detail-search";
+import { secondaryActiveFiltersCount } from "@/lib/activeFilter-count";
 
 function FilterSlidersIcon() {
   return (
@@ -13,7 +17,7 @@ function FilterSlidersIcon() {
       strokeWidth="2"
       strokeLinecap="round"
       strokeLinejoin="round"
-      className="size-4"
+      className="size-4 shrink-0"
       aria-hidden="true"
     >
       <path d="M4 21v-7" />
@@ -29,8 +33,14 @@ function FilterSlidersIcon() {
   );
 }
 
-export default function DetailSearchModal() {
+type DetailSearchModalProps = {
+  count?: number;
+};
+
+export default function DetailSearchModal({ count }: DetailSearchModalProps) {
   const [isOpen, setIsOpen] = useState(false);
+  const [filters] = useQueryStates(detailSearchParsers);
+  const displayCount = count ?? secondaryActiveFiltersCount(filters);
 
   useEffect(() => {
     if (!isOpen) return;
@@ -53,10 +63,16 @@ export default function DetailSearchModal() {
       <button
         type="button"
         onClick={() => setIsOpen(true)}
-        className="flex items-center gap-1.5 text-sm font-medium text-gray-600 transition-colors duration-200 hover:text-gray-900"
+        className="inline-flex items-center gap-2 text-sm font-medium text-gray-600 transition-colors duration-200 hover:text-gray-900"
+        aria-label={
+          displayCount > 0
+            ? `Weitere Filter, ${displayCount} aktiv`
+            : "Weitere Filter"
+        }
       >
         <FilterSlidersIcon />
-        Weitere Filter
+        <span>Weitere Filter</span>
+        <ActiveFilterCountBadge count={displayCount} />
       </button>
 
       {isOpen && (

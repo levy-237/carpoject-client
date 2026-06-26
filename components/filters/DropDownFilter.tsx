@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import ActiveFilterCountBadge from "./ActiveFilterCountBadge";
 
 const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL ?? "";
 
@@ -25,7 +26,6 @@ export default function DropDownFilter({
   name,
   value,
   onChange,
-
   searchable = true,
   disabled = false,
 }: DropDownFilterProps) {
@@ -118,32 +118,30 @@ export default function DropDownFilter({
       <button
         type="button"
         onClick={handleToggleOpen}
-        className={`flex w-full items-center justify-between gap-2 rounded-lg border bg-white px-4 py-2.5 text-sm font-medium transition-all duration-200 ${
+        className={`flex w-full items-center gap-2 rounded-lg border bg-white px-4 py-2.5 text-sm font-medium transition-all duration-200 ${
           isOpen
             ? "border-gray-400 shadow-sm"
             : "border-gray-200 hover:border-gray-300 hover:shadow-sm"
         } ${disabled ? "opacity-50 cursor-not-allowed" : ""}`}
       >
-        <span>{name}</span>
-        {selectedCount > 0 && (
-          <span className="rounded-full bg-gray-900 px-2 py-0.5 text-xs text-white">
-            {selectedCount}
-          </span>
-        )}
-        <svg
-          className={`h-4 w-4 text-gray-500 transition-transform duration-200 ${
-            isOpen ? "rotate-180" : ""
-          }`}
-          viewBox="0 0 20 20"
-          fill="currentColor"
-          aria-hidden="true"
-        >
-          <path
-            fillRule="evenodd"
-            d="M5.23 7.21a.75.75 0 011.06.02L10 10.94l3.71-3.71a.75.75 0 111.06 1.06l-4.24 4.24a.75.75 0 01-1.06 0L5.21 8.29a.75.75 0 01.02-1.08z"
-            clipRule="evenodd"
-          />
-        </svg>
+        <span className="truncate text-left">{name}</span>
+        <span className="ml-auto flex shrink-0 items-center gap-1.5">
+          <ActiveFilterCountBadge count={selectedCount} />
+          <svg
+            className={`h-4 w-4 text-gray-500 transition-transform duration-200 ${
+              isOpen ? "rotate-180" : ""
+            }`}
+            viewBox="0 0 20 20"
+            fill="currentColor"
+            aria-hidden="true"
+          >
+            <path
+              fillRule="evenodd"
+              d="M5.23 7.21a.75.75 0 011.06.02L10 10.94l3.71-3.71a.75.75 0 111.06 1.06l-4.24 4.24a.75.75 0 01-1.06 0L5.21 8.29a.75.75 0 01.02-1.08z"
+              clipRule="evenodd"
+            />
+          </svg>
+        </span>
       </button>
 
       {isOpen && (

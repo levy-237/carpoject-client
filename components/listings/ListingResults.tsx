@@ -18,6 +18,7 @@ import { useRouter } from "next/navigation";
 import FiltersDelete from "../filters/FiltersDelete";
 import { type UserProfile } from "@/actions/authActions";
 import ListingCompareButton from "./ListingCompareButton";
+import { allActiveFiltersCount } from "@/lib/activeFilter-count";
 
 export default function ListingResults({ user }: { user: UserProfile | null }) {
   const router = useRouter();
@@ -57,6 +58,12 @@ export default function ListingResults({ user }: { user: UserProfile | null }) {
   const isInCompare = (id: number) => compareListings?.includes(id) || false;
 
   const isComparationOn = compareListings && compareListings.length > 0;
+
+  const filterCount = allActiveFiltersCount(filters);
+
+  const removeComparison = () => {
+    setCompareListings(null);
+  };
 
   useEffect(() => {
     let isCancelled = false;
@@ -119,13 +126,12 @@ export default function ListingResults({ user }: { user: UserProfile | null }) {
     <section className="flex min-w-0 w-full max-w-4xl flex-1 flex-col gap-4">
       {results.length > 0 ? (
         <>
-          {" "}
           <div className="flex items-center justify-between gap-4">
             <p className="text-sm text-gray-500">{count} Ergebnisse</p>
             <div className="flex items-center gap-4">
               <FiltersDelete onReset={() => router.push("/listings")} />
-              <div className="lg:hidden flex items-center gap-4">
-                <DetailSearchModal />
+              <div className="lg:hidden">
+                <DetailSearchModal count={filterCount} />
               </div>
             </div>
           </div>
@@ -147,7 +153,10 @@ export default function ListingResults({ user }: { user: UserProfile | null }) {
           </div>
           <Pagination count={count} />{" "}
           {isComparationOn && (
-            <ListingCompareButton compareListings={compareListings} />
+            <ListingCompareButton
+              compareListings={compareListings}
+              removeComparison={removeComparison}
+            />
           )}
         </>
       ) : (

@@ -2,20 +2,15 @@
 
 import { useRouter } from "next/navigation";
 import { useState } from "react";
-import DropDownFilter, {
-  type SelectedFilterIds,
-} from "@/components/filters/DropDownFilter";
+import DropDownFilter from "@/components/filters/DropDownFilter";
 import DetailSearchModal from "@/components/filters/DetailSearchModal";
 import RangeInput from "@/components/filters/RangeInput";
 import SearchBar from "@/components/filters/SearchBar";
 import {
-  DetailSearchFormState,
   fromFilterToApiUrlSearch,
-  getDefaultSideBarSearchFormState,
   ORDERING_OPTIONS,
   sideBarSearchParsers,
 } from "@/lib/detail-search";
-import { type inferParserType } from "nuqs/server";
 import { useQueryState } from "nuqs";
 import FiltersDelete from "../filters/FiltersDelete";
 
@@ -87,18 +82,32 @@ export default function ListingSidebar() {
         >
           Sortierung
         </label>
-        <select
-          id="listing-ordering"
-          value={ordering}
-          onChange={(event) => setOrdering(event.target.value)}
-          className="w-full rounded-lg border border-gray-200 bg-white px-3 py-2.5 text-sm outline-none transition-colors duration-200 focus:border-gray-400"
-        >
-          {ORDERING_OPTIONS.map((option) => (
-            <option key={option.value} value={option.value}>
-              {option.label}
-            </option>
-          ))}
-        </select>
+        <div className="relative">
+          <select
+            id="listing-ordering"
+            value={ordering}
+            onChange={(event) => setOrdering(event.target.value)}
+            className="w-full appearance-none rounded-lg border border-gray-200 bg-white px-4 py-2.5 pr-10 text-sm font-medium outline-none transition-all duration-200 hover:border-gray-300 hover:shadow-sm focus:border-gray-400"
+          >
+            {ORDERING_OPTIONS.map((option) => (
+              <option key={option.value || "standard"} value={option.value}>
+                {option.label}
+              </option>
+            ))}
+          </select>
+          <svg
+            className="pointer-events-none absolute right-3 top-1/2 h-4 w-4 -translate-y-1/2 text-gray-500"
+            viewBox="0 0 20 20"
+            fill="currentColor"
+            aria-hidden="true"
+          >
+            <path
+              fillRule="evenodd"
+              d="M5.23 7.21a.75.75 0 011.06.02L10 10.94l3.71-3.71a.75.75 0 111.06 1.06l-4.24 4.24a.75.75 0 01-1.06 0L5.21 8.29a.75.75 0 01.02-1.08z"
+              clipRule="evenodd"
+            />
+          </svg>
+        </div>
       </div>
 
       <DropDownFilter
