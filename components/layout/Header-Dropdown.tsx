@@ -1,5 +1,10 @@
 import Link from "next/link";
 import { DROPDOWN_ITEMS } from "@/lib/dropdown-items";
+import {
+  isUnderDevelopmentLink,
+  UNDER_DEVELOPMENT_MESSAGE,
+} from "@/lib/nav-items";
+import { showToast } from "@/lib/toast";
 
 const sidebarLinkClass =
   "w-fit border-b border-transparent py-1 transition-[border-color] duration-[400ms] hover:border-gray-700 font-semibold";
@@ -24,6 +29,12 @@ export default function HeaderDropdown({
             <Link
               href={dropdownItem.link}
               className="group flex flex-col flex-wrap items-center justify-center gap-2 max-sm:flex-col"
+              onClick={(e) => {
+                if (isUnderDevelopmentLink(dropdownItem.link)) {
+                  e.preventDefault();
+                  showToast(UNDER_DEVELOPMENT_MESSAGE, "info");
+                }
+              }}
             >
               <img
                 src={dropdownItem.icon}

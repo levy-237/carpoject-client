@@ -4,6 +4,12 @@ export type NavItem = {
   link: string;
 };
 
+export const UNDER_DEVELOPMENT_MESSAGE = "Diese Seite wird derzeit entwickelt.";
+
+export function isUnderDevelopmentLink(link: string): boolean {
+  return link.startsWith(process.env.UNDER_DEVELOPMENT_LINK ?? "");
+}
+
 export const NAV_ITEMS: NavItem[] = [
   {
     id: 1,
@@ -13,7 +19,7 @@ export const NAV_ITEMS: NavItem[] = [
   {
     id: 2,
     title: "Unternehmen",
-    link: "/companies",
+    link: "/unternehmen",
   },
   {
     id: 3,

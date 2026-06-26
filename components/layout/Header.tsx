@@ -7,7 +7,11 @@ import { useRouter } from "next/navigation";
 import { useState } from "react";
 import BurgerMenu from "./BurgerMenu";
 import HeaderDropdown from "./Header-Dropdown";
-import { NAV_ITEMS } from "@/lib/nav-items";
+import {
+  isUnderDevelopmentLink,
+  NAV_ITEMS,
+  UNDER_DEVELOPMENT_MESSAGE,
+} from "@/lib/nav-items";
 import { showToast } from "@/lib/toast";
 
 export function Header({
@@ -65,7 +69,13 @@ export function Header({
               key={item.id}
               className={`cursor-pointer p-2 transition-all duration-300 ${isHovered === item.title ? "bg-gray-200 rounded-md" : ""}`}
               onMouseEnter={() => handleMouseEnter(item.title)}
-              onClick={() => handleMouseLeave()}
+              onClick={(e) => {
+                handleMouseLeave();
+                if (isUnderDevelopmentLink(item.link)) {
+                  e.preventDefault();
+                  showToast(UNDER_DEVELOPMENT_MESSAGE, "info");
+                }
+              }}
             >
               {item.title}
             </Link>
