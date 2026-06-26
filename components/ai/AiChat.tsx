@@ -2,6 +2,7 @@ import { ArrowRight, Bot, Send, X } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 import AiChatHeader from "./AiChatHeader";
 import { sendAiMessage, type ChatHistory } from "@/actions/aiChatActions";
+import { showToast } from "@/lib/toast";
 
 const INITIAL_MESSAGE =
   "Hallo! Wie kann ich Ihnen bei der Suche nach einem Auto helfen?";
@@ -50,6 +51,9 @@ export default function AiChat({ handleClose }: { handleClose: () => void }) {
       ]);
       console.log(result?.suggested_follow_up_question);
       setSuggestedFollowUpQuestion(result?.suggested_follow_up_question ?? "");
+    }
+    if (!success) {
+      showToast(result?.message ?? "Fehler beim Senden der Nachricht", "error");
     }
 
     setIsLoading(false);

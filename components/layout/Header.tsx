@@ -8,7 +8,7 @@ import { useState } from "react";
 import BurgerMenu from "./BurgerMenu";
 import HeaderDropdown from "./Header-Dropdown";
 import { NAV_ITEMS } from "@/lib/nav-items";
-import NotificationToast from "../ui/NotificationToast";
+import { showToast } from "@/lib/toast";
 
 export function Header({
   isAuthenticated,
@@ -83,7 +83,10 @@ export function Header({
                   if (isVerified) {
                     return router.push("/add-listings");
                   } else {
-                    alert("you need to verify your email to create a listing");
+                    showToast(
+                      "Du musst zuerst deine E-Mail bestätigen, um eine Anzeige zu erstellen.",
+                      "info",
+                    );
                   }
                 }}
                 className="inline-flex items-center gap-2 rounded-full bg-gray-900 px-4 py-2 text-sm font-semibold text-white shadow-sm transition-colors duration-200 hover:bg-gray-700"

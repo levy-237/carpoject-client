@@ -1,3 +1,6 @@
+"use client";
+
+import { showToast } from "@/lib/toast";
 import { ArrowRight, X } from "lucide-react";
 import Link from "next/link";
 
@@ -31,7 +34,10 @@ export default function ListingCompareButton({
             if (count < 2) {
               e.preventDefault();
               e.stopPropagation();
-              alert("Du kannst mindestens 2 Fahrzeuge vergleichen");
+              showToast(
+                "Du kannst mindestens 2 Fahrzeuge vergleichen",
+                "info",
+              );
             }
           }}
         >
