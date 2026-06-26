@@ -3,6 +3,7 @@ import "./globals.css";
 import { Header } from "@/components/layout/Header";
 import { Providers } from "./providers";
 import AiPopUp from "@/components/ai/AiPopUp";
+import { ToastProvider } from "@/components/ui/ToastProvider";
 import { cookies } from "next/headers";
 import { getUserProfile, refreshTokenCookie } from "@/lib/auth";
 
@@ -35,6 +36,7 @@ export default async function RootLayout({
           />
           {children}
           <AiPopUp />
+          <ToastProvider />
         </Providers>
       </body>
     </html>

@@ -19,6 +19,7 @@ import FiltersDelete from "../filters/FiltersDelete";
 import { type UserProfile } from "@/actions/authActions";
 import ListingCompareButton from "./ListingCompareButton";
 import { allActiveFiltersCount } from "@/lib/activeFilter-count";
+import { showToast } from "@/lib/toast";
 
 export default function ListingResults({ user }: { user: UserProfile | null }) {
   const router = useRouter();
@@ -48,7 +49,7 @@ export default function ListingResults({ user }: { user: UserProfile | null }) {
       );
     } else {
       if (compareListings && compareListings.length >= 3) {
-        alert("You can only compare up to 3 listings");
+        showToast("Du kannst maximal 3 Fahrzeuge vergleichen", "info");
         return;
       }
       setCompareListings([...(compareListings || []), id]);
@@ -138,7 +139,7 @@ export default function ListingResults({ user }: { user: UserProfile | null }) {
           <div className="flex flex-col gap-4">
             {results.map((listing) => {
               const isFavourite =
-                user?.favourite_listings.includes(listing.id) || false;
+                user?.favourite_listings?.includes(listing.id) || false;
               return (
                 <ListingCard
                   key={listing.id}

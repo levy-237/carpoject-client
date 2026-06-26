@@ -72,7 +72,7 @@ export default function Carousel({
             type="button"
             onClick={() => goToSlide(activeIndex - 1)}
             disabled={isPrevDisabled}
-            className="carousel-prev absolute start-3 top-1/2 flex size-9.5 -translate-y-1/2 items-center justify-center rounded-full bg-white shadow-sm disabled:opacity-50 sm:start-5"
+            className="cursor-pointer carousel-prev absolute start-3 top-1/2 flex size-9.5 -translate-y-1/2 items-center justify-center rounded-full bg-white shadow-sm disabled:opacity-50 sm:start-5"
             aria-label="Previous slide"
           >
             <ChevronLeft className="size-5" aria-hidden="true" />
@@ -82,7 +82,7 @@ export default function Carousel({
             type="button"
             onClick={() => goToSlide(activeIndex + 1)}
             disabled={isNextDisabled}
-            className="carousel-next absolute end-3 top-1/2 flex size-9.5 -translate-y-1/2 items-center justify-center rounded-full bg-white shadow-sm disabled:opacity-50 sm:end-5"
+            className="cursor-pointer carousel-next absolute end-3 top-1/2 flex size-9.5 -translate-y-1/2 items-center justify-center rounded-full bg-white shadow-sm disabled:opacity-50 sm:end-5"
             aria-label="Next slide"
           >
             <ChevronRight className="size-5" aria-hidden="true" />

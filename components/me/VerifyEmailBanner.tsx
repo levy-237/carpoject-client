@@ -4,6 +4,7 @@ import {
   sendUserVerification,
   verifyUserEmail,
 } from "@/actions/authActions";
+import { showToast } from "@/lib/toast";
 import { Mail } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
@@ -19,41 +20,37 @@ export default function VerifyEmailBanner({ email }: VerifyEmailBannerProps) {
   const router = useRouter();
   const [step, setStep] = useState<"initial" | "code">("initial");
   const [code, setCode] = useState("");
-  const [error, setError] = useState("");
-  const [infoMessage, setInfoMessage] = useState("");
   const [loading, setLoading] = useState(false);
 
   async function handleSendVerification() {
-    setError("");
-    setInfoMessage("");
     setLoading(true);
 
     const result = await sendUserVerification();
 
     if (!result.success) {
-      setError(result.message);
+      showToast(result.message, "error");
       setLoading(false);
       return;
     }
 
     setStep("code");
-    setInfoMessage(result.message);
+    showToast(result.message, "success");
     setLoading(false);
   }
 
   async function handleVerifyCode(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
-    setError("");
     setLoading(true);
 
     const result = await verifyUserEmail(code);
 
     if (!result.success) {
-      setError(result.message);
+      showToast(result.message, "error");
       setLoading(false);
       return;
     }
 
+    showToast(result.message, "success");
     router.refresh();
   }
 
@@ -80,18 +77,6 @@ export default function VerifyEmailBanner({ email }: VerifyEmailBannerProps) {
             musst du zuerst deine E-Mail bestätigen. Wir senden einen Code an{" "}
             <span className="font-medium text-gray-900">{email}</span>.
           </p>
-
-          {error && (
-            <p className="mt-3 rounded-lg border border-red-200 bg-red-50 px-3 py-2 text-sm text-red-700">
-              {error}
-            </p>
-          )}
-
-          {infoMessage && (
-            <p className="mt-3 rounded-lg border border-emerald-200 bg-emerald-50 px-3 py-2 text-sm text-emerald-700">
-              {infoMessage}
-            </p>
-          )}
 
           {step === "initial" ? (
             <button
