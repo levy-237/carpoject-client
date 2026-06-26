@@ -1,5 +1,6 @@
 "use client";
 
+import { ChevronLeft, ChevronRight } from "lucide-react";
 import { useState, type ReactNode } from "react";
 
 type CarouselProps = {
@@ -17,42 +18,6 @@ function chunkItems<T>(items: T[], size: number): T[][] {
   }
 
   return slides;
-}
-
-function ChevronLeftIcon() {
-  return (
-    <svg
-      xmlns="http://www.w3.org/2000/svg"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="2"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      className="size-5"
-      aria-hidden="true"
-    >
-      <path d="m15 18-6-6 6-6" />
-    </svg>
-  );
-}
-
-function ChevronRightIcon() {
-  return (
-    <svg
-      xmlns="http://www.w3.org/2000/svg"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="2"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      className="size-5"
-      aria-hidden="true"
-    >
-      <path d="m9 18 6-6-6-6" />
-    </svg>
-  );
 }
 
 export default function Carousel({
@@ -110,7 +75,7 @@ export default function Carousel({
             className="carousel-prev absolute start-3 top-1/2 flex size-9.5 -translate-y-1/2 items-center justify-center rounded-full bg-white shadow-sm disabled:opacity-50 sm:start-5"
             aria-label="Previous slide"
           >
-            <ChevronLeftIcon />
+            <ChevronLeft className="size-5" aria-hidden="true" />
           </button>
 
           <button
@@ -120,7 +85,7 @@ export default function Carousel({
             className="carousel-next absolute end-3 top-1/2 flex size-9.5 -translate-y-1/2 items-center justify-center rounded-full bg-white shadow-sm disabled:opacity-50 sm:end-5"
             aria-label="Next slide"
           >
-            <ChevronRightIcon />
+            <ChevronRight className="size-5" aria-hidden="true" />
           </button>
 
           <div className="carousel-pagination absolute inset-x-0 bottom-3 flex justify-center gap-3">

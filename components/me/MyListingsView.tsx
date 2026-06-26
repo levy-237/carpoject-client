@@ -1,5 +1,6 @@
 "use client";
 
+import { Pencil, Trash2 } from "lucide-react";
 import ListingCard from "@/components/listings/ListingCard";
 import MyListingsEmpty from "@/components/me/MyListingsEmpty";
 import type { Listing } from "@/lib/listings";
@@ -43,20 +44,11 @@ function EditListingButton({ listingId }: { listingId: number }) {
       href={`/me/listings/${listingId}`}
       className="inline-flex min-w-32 items-center justify-center gap-2 rounded-xl border border-gray-200 bg-white px-4 py-2.5 text-sm font-medium text-gray-700 shadow-sm transition-colors duration-200 hover:border-gray-300 hover:bg-gray-50"
     >
-      <svg
-        xmlns="http://www.w3.org/2000/svg"
-        viewBox="0 0 24 24"
-        fill="none"
-        stroke="currentColor"
-        strokeWidth={1.75}
-        strokeLinecap="round"
-        strokeLinejoin="round"
+      <Pencil
         className="size-4 shrink-0"
+        strokeWidth={1.75}
         aria-hidden="true"
-      >
-        <path d="M17 3a2.85 2.85 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5Z" />
-        <path d="m15 5 4 4" />
-      </svg>
+      />
       Bearbeiten
     </Link>
   );
@@ -69,23 +61,11 @@ function DeleteListingButton({ listingId }: { listingId: number }) {
       data-listing-id={listingId}
       className="inline-flex min-w-32 items-center justify-center gap-2 rounded-xl border border-red-200 bg-red-50 px-4 py-2.5 text-sm font-medium text-red-700 transition-colors duration-200 hover:border-red-300 hover:bg-red-100"
     >
-      <svg
-        xmlns="http://www.w3.org/2000/svg"
-        viewBox="0 0 24 24"
-        fill="none"
-        stroke="currentColor"
-        strokeWidth={1.75}
-        strokeLinecap="round"
-        strokeLinejoin="round"
+      <Trash2
         className="size-4 shrink-0"
+        strokeWidth={1.75}
         aria-hidden="true"
-      >
-        <path d="M3 6h18" />
-        <path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6" />
-        <path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2" />
-        <line x1="10" x2="10" y1="11" y2="17" />
-        <line x1="14" x2="14" y1="11" y2="17" />
-      </svg>
+      />
       Löschen
     </button>
   );

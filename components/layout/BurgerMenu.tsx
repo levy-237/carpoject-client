@@ -1,27 +1,10 @@
 "use client";
 
+import { ChevronDown, User } from "lucide-react";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { DROPDOWN_ITEMS } from "@/lib/dropdown-items";
 import { NAV_ITEMS } from "@/lib/nav-items";
-
-function ChevronIcon({ isOpen }: { isOpen: boolean }) {
-  return (
-    <svg
-      xmlns="http://www.w3.org/2000/svg"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="2"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      className={`size-5 transition-transform duration-300 ${isOpen ? "rotate-180" : ""}`}
-      aria-hidden="true"
-    >
-      <path d="m6 9 6 6 6-6" />
-    </svg>
-  );
-}
 
 export default function BurgerMenu() {
   const [isOpen, setIsOpen] = useState<boolean>(false);
@@ -95,7 +78,10 @@ export default function BurgerMenu() {
                       <span className="flex items-center gap-3">
                         {item.title}
                       </span>
-                      <ChevronIcon isOpen={isExpanded} />
+                      <ChevronDown
+                        className={`size-5 transition-transform duration-300 ${isExpanded ? "rotate-180" : ""}`}
+                        aria-hidden="true"
+                      />
                     </button>
 
                     <div
@@ -143,12 +129,7 @@ export default function BurgerMenu() {
                   className="flex items-center gap-3 py-3 text-base font-semibold text-gray-900 transition-colors hover:text-gray-600"
                   onClick={closeMenu}
                 >
-                  <img
-                    src="/user-image.svg"
-                    alt=""
-                    className="size-5"
-                    aria-hidden="true"
-                  />
+                  <User className="size-5 text-gray-600" aria-hidden="true" />
                   <span>Mein Konto</span>
                 </Link>
               </li>

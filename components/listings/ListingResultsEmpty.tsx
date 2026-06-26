@@ -1,5 +1,6 @@
 "use client";
 
+import { SearchX } from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import DetailSearchModal from "@/components/filters/DetailSearchModal";
@@ -33,26 +34,6 @@ function hasActiveFilters(filters: DetailSearchFormState): boolean {
   return false;
 }
 
-function SearchEmptyIcon() {
-  return (
-    <svg
-      xmlns="http://www.w3.org/2000/svg"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="1.5"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      className="size-8 text-gray-400"
-      aria-hidden="true"
-    >
-      <circle cx="11" cy="11" r="7" />
-      <path d="m20 20-3.5-3.5" />
-      <path d="M8 11h6" />
-    </svg>
-  );
-}
-
 export default function ListingResultsEmpty({
   filters,
 }: ListingResultsEmptyProps) {
@@ -62,7 +43,11 @@ export default function ListingResultsEmpty({
   return (
     <div className="flex min-h-[420px] flex-col items-center justify-center rounded-3xl border border-dashed border-gray-200 bg-gray-50 px-6 py-16 text-center">
       <div className="mb-6 flex size-20 items-center justify-center rounded-full bg-white shadow-sm ring-1 ring-gray-200">
-        <SearchEmptyIcon />
+        <SearchX
+          className="size-8 text-gray-400"
+          strokeWidth={1.5}
+          aria-hidden="true"
+        />
       </div>
 
       <h2 className="text-2xl font-semibold text-gray-900">

@@ -1,3 +1,4 @@
+import { X } from "lucide-react";
 import type { NotificationColor } from "@/hooks/useNotification";
 
 const colorClasses: Record<NotificationColor, string> = {
@@ -39,20 +40,7 @@ export default function NotificationToast({
           className="rounded-full p-0.5 opacity-80 transition-opacity hover:opacity-100"
           aria-label="Benachrichtigung schließen"
         >
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            strokeWidth="2"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            className="size-4"
-            aria-hidden="true"
-          >
-            <path d="M18 6 6 18" />
-            <path d="m6 6 12 12" />
-          </svg>
+          <X className="size-4" aria-hidden="true" />
         </button>
       </div>
     </div>

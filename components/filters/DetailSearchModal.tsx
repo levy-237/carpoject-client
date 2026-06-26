@@ -1,37 +1,12 @@
 "use client";
 
+import { SlidersHorizontal, X } from "lucide-react";
 import { Suspense, useEffect, useState } from "react";
 import { useQueryStates } from "nuqs";
 import DetailSearchForm from "./DetailSearchForm";
 import ActiveFilterCountBadge from "./ActiveFilterCountBadge";
 import { detailSearchParsers } from "@/lib/detail-search";
 import { secondaryActiveFiltersCount } from "@/lib/activeFilter-count";
-
-function FilterSlidersIcon() {
-  return (
-    <svg
-      xmlns="http://www.w3.org/2000/svg"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="2"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      className="size-4 shrink-0"
-      aria-hidden="true"
-    >
-      <path d="M4 21v-7" />
-      <path d="M4 10V3" />
-      <path d="M12 21v-9" />
-      <path d="M12 8V3" />
-      <path d="M20 21v-5" />
-      <path d="M20 12V3" />
-      <path d="M1 14h6" />
-      <path d="M9 8h6" />
-      <path d="M17 16h6" />
-    </svg>
-  );
-}
 
 type DetailSearchModalProps = {
   count?: number;
@@ -70,7 +45,7 @@ export default function DetailSearchModal({ count }: DetailSearchModalProps) {
             : "Weitere Filter"
         }
       >
-        <FilterSlidersIcon />
+        <SlidersHorizontal className="size-4 shrink-0" aria-hidden="true" />
         <span>Weitere Filter</span>
         <ActiveFilterCountBadge count={displayCount} />
       </button>
@@ -94,20 +69,7 @@ export default function DetailSearchModal({ count }: DetailSearchModalProps) {
               className="absolute right-4 top-4 z-10 flex size-9 items-center justify-center rounded-full bg-white text-gray-500 shadow-sm transition-colors duration-200 hover:bg-gray-100 hover:text-gray-900"
               aria-label="Filter schließen"
             >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                className="size-5"
-                aria-hidden="true"
-              >
-                <path d="M18 6 6 18" />
-                <path d="m6 6 12 12" />
-              </svg>
+              <X className="size-5" aria-hidden="true" />
             </button>
 
             <div className="max-h-[calc(100vh-2rem)] overflow-y-auto rounded-3xl">

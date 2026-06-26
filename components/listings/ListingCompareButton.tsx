@@ -1,3 +1,4 @@
+import { ArrowRight, X } from "lucide-react";
 import Link from "next/link";
 
 export default function ListingCompareButton({
@@ -17,20 +18,7 @@ export default function ListingCompareButton({
           onClick={removeComparison}
           className="inline-flex items-center gap-2 px-4 py-3 text-sm font-medium text-gray-600 transition-colors duration-200 hover:bg-gray-50 hover:text-gray-900"
         >
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            strokeWidth={2}
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            className="size-4 shrink-0"
-            aria-hidden="true"
-          >
-            <path d="M18 6 6 18" />
-            <path d="m6 6 12 12" />
-          </svg>
+          <X className="size-4 shrink-0" aria-hidden="true" />
           Löschen
         </button>
 
@@ -53,20 +41,10 @@ export default function ListingCompareButton({
           <span>
             {count === 1 ? "Fahrzeug vergleichen" : "Fahrzeuge vergleichen"}
           </span>
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            strokeWidth={2}
-            strokeLinecap="round"
-            strokeLinejoin="round"
+          <ArrowRight
             className="size-4 shrink-0 text-blue-600"
             aria-hidden="true"
-          >
-            <path d="M5 12h14" />
-            <path d="m12 5 7 7-7 7" />
-          </svg>
+          />
         </Link>
       </div>
     </div>

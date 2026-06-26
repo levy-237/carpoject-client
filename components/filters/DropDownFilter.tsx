@@ -1,5 +1,6 @@
 "use client";
 
+import { ChevronDown, Search } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 import ActiveFilterCountBadge from "./ActiveFilterCountBadge";
 
@@ -127,20 +128,12 @@ export default function DropDownFilter({
         <span className="truncate text-left">{name}</span>
         <span className="ml-auto flex shrink-0 items-center gap-1.5">
           <ActiveFilterCountBadge count={selectedCount} />
-          <svg
-            className={`h-4 w-4 text-gray-500 transition-transform duration-200 ${
+          <ChevronDown
+            className={`size-4 text-gray-500 transition-transform duration-200 ${
               isOpen ? "rotate-180" : ""
             }`}
-            viewBox="0 0 20 20"
-            fill="currentColor"
             aria-hidden="true"
-          >
-            <path
-              fillRule="evenodd"
-              d="M5.23 7.21a.75.75 0 011.06.02L10 10.94l3.71-3.71a.75.75 0 111.06 1.06l-4.24 4.24a.75.75 0 01-1.06 0L5.21 8.29a.75.75 0 01.02-1.08z"
-              clipRule="evenodd"
-            />
-          </svg>
+          />
         </span>
       </button>
 
@@ -149,18 +142,10 @@ export default function DropDownFilter({
           {searchable && (
             <div className="border-b border-gray-100 p-3">
               <div className="relative">
-                <svg
-                  className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-gray-400"
-                  viewBox="0 0 20 20"
-                  fill="currentColor"
+                <Search
+                  className="pointer-events-none absolute left-3 top-1/2 size-4 -translate-y-1/2 text-gray-400"
                   aria-hidden="true"
-                >
-                  <path
-                    fillRule="evenodd"
-                    d="M9 3.5a5.5 5.5 0 100 11 5.5 5.5 0 000-11zM2 9a7 7 0 1112.452 4.391l3.328 3.329a.75.75 0 11-1.06 1.06l-3.329-3.328A7 7 0 012 9z"
-                    clipRule="evenodd"
-                  />
-                </svg>
+                />
                 <input
                   type="text"
                   value={search}

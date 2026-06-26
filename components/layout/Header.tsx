@@ -1,6 +1,7 @@
 "use client";
 
 import { AuthMeSuccessResponse, logout } from "@/actions/authActions";
+import { Plus } from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
@@ -87,20 +88,7 @@ export function Header({
                 }}
                 className="inline-flex items-center gap-2 rounded-full bg-gray-900 px-4 py-2 text-sm font-semibold text-white shadow-sm transition-colors duration-200 hover:bg-gray-700"
               >
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth={2}
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  className="size-4"
-                  aria-hidden="true"
-                >
-                  <path d="M12 5v14" />
-                  <path d="M5 12h14" />
-                </svg>
+                <Plus className="size-4" aria-hidden="true" />
                 Anzeige erstellen
               </Link>
               <Link href="/me" onMouseEnter={() => handleMouseLeave()}>
@@ -114,14 +102,6 @@ export function Header({
                   }
                 />
               </Link>
-
-              <button
-                type="button"
-                onClick={handleLogout}
-                className="text-sm font-semibold text-gray-700 transition-colors duration-200 hover:text-gray-900"
-              >
-                Abmelden
-              </button>
             </>
           ) : (
             <Link href="/login">

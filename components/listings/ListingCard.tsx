@@ -1,3 +1,4 @@
+import { Eye, Heart, Volume2 } from "lucide-react";
 import Link from "next/link";
 import FavoriteListingButton from "@/components/listings/FavoriteListingButton";
 import type { Listing } from "@/lib/listings";
@@ -11,16 +12,7 @@ function PremiumAdBadge() {
       className="inline-flex shrink-0 items-center gap-1 rounded-md bg-amber-100 px-2 py-0.5 text-xs font-semibold uppercase tracking-wide text-amber-800"
       title="Premium-Anzeige"
     >
-      <svg
-        xmlns="http://www.w3.org/2000/svg"
-        viewBox="0 0 24 24"
-        fill="currentColor"
-        className="size-3.5"
-        aria-hidden="true"
-      >
-        <path d="M13.5 4.06c0-1.336-1.616-2.005-2.56-1.06l-4.5 4.5H4.508c-1.141 0-2.318.664-2.66 1.905A9.76 9.76 0 0 0 1.5 12c0 .898.121 1.768.35 2.595.341 1.24 1.518 1.905 2.659 1.905h1.93l4.5 4.5c.945.945 2.561.276 2.561-1.06V4.06ZM18.584 5.106a.75.75 0 0 1 1.06 0c3.808 3.807 3.808 9.98 0 13.788a.75.75 0 0 1-1.06-1.06 8.25 8.25 0 0 0 0-11.668.75.75 0 0 1 0-1.06Z" />
-        <path d="M15.932 7.757a.75.75 0 0 1 1.061 0 6 6 0 0 1 0 8.486.75.75 0 0 1-1.06-1.061 4.5 4.5 0 0 0 0-6.364.75.75 0 0 1 0-1.06Z" />
-      </svg>
+      <Volume2 className="size-3.5 fill-current" aria-hidden="true" />
       Anzeige
     </span>
   );
@@ -62,26 +54,7 @@ function ListingOwner({ username }: { username: string }) {
 function ViewCount({ count }: { count: number }) {
   return (
     <span className="inline-flex shrink-0 items-center gap-1.5 text-sm text-gray-500">
-      <svg
-        xmlns="http://www.w3.org/2000/svg"
-        viewBox="0 0 24 24"
-        fill="none"
-        stroke="currentColor"
-        strokeWidth={1.5}
-        className="size-6"
-        aria-hidden="true"
-      >
-        <path
-          strokeLinecap="round"
-          strokeLinejoin="round"
-          d="M2.036 12.322a1.012 1.012 0 0 1 0-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.964-7.178Z"
-        />
-        <path
-          strokeLinecap="round"
-          strokeLinejoin="round"
-          d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z"
-        />
-      </svg>
+      <Eye className="size-6" strokeWidth={1.5} aria-hidden="true" />
       <span>{count.toLocaleString("de-DE")}</span>
     </span>
   );
@@ -90,21 +63,7 @@ function ViewCount({ count }: { count: number }) {
 function FavouriteCount({ count }: { count: number }) {
   return (
     <span className="inline-flex shrink-0 items-center gap-1.5 text-sm text-gray-500">
-      <svg
-        xmlns="http://www.w3.org/2000/svg"
-        viewBox="0 0 24 24"
-        fill="none"
-        stroke="currentColor"
-        strokeWidth={1.5}
-        className="size-6"
-        aria-hidden="true"
-      >
-        <path
-          strokeLinecap="round"
-          strokeLinejoin="round"
-          d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12Z"
-        />
-      </svg>
+      <Heart className="size-6" strokeWidth={1.5} aria-hidden="true" />
       <span>{count.toLocaleString("de-DE")}</span>
     </span>
   );

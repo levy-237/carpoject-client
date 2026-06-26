@@ -1,3 +1,4 @@
+import { Check } from "lucide-react";
 import Link from "next/link";
 
 export const metadata = {
@@ -156,7 +157,10 @@ export default function UberUnsPage() {
                 key={feature}
                 className="flex gap-3 rounded-2xl bg-neutral-50 p-4 text-sm font-semibold leading-6 text-neutral-700"
               >
-                <CheckIcon />
+                <Check
+                  className="mt-1 h-5 w-5 shrink-0 text-emerald-600"
+                  aria-hidden="true"
+                />
                 <span>{feature}</span>
               </li>
             ))}
@@ -235,7 +239,10 @@ function InfoCard({
             key={item}
             className="flex gap-3 text-sm font-semibold leading-6 text-neutral-700"
           >
-            <CheckIcon />
+            <Check
+              className="mt-1 h-5 w-5 shrink-0 text-emerald-600"
+              aria-hidden="true"
+            />
             <span>{item}</span>
           </li>
         ))}
@@ -258,22 +265,5 @@ function AnchorLink({
     >
       {children}
     </Link>
-  );
-}
-
-function CheckIcon() {
-  return (
-    <svg
-      className="mt-1 h-5 w-5 shrink-0 text-emerald-600"
-      viewBox="0 0 20 20"
-      fill="currentColor"
-      aria-hidden="true"
-    >
-      <path
-        fillRule="evenodd"
-        d="M16.704 5.29a1 1 0 0 1 .006 1.414l-7.25 7.31a1 1 0 0 1-1.42 0L3.29 9.224a1 1 0 0 1 1.42-1.408l4.04 4.074 6.54-6.594a1 1 0 0 1 1.414-.006Z"
-        clipRule="evenodd"
-      />
-    </svg>
   );
 }
