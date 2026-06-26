@@ -1,6 +1,9 @@
 import EditProfileForm from "@/components/me/EditProfileForm";
 import { getUserProfile } from "@/lib/auth";
+import { createPageMetadata } from "@/lib/metadata";
 import { redirect } from "next/navigation";
+
+export const metadata = createPageMetadata("Profil bearbeiten");
 
 export default async function MeEditPage() {
   const response = await getUserProfile();

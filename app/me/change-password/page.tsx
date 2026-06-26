@@ -1,4 +1,7 @@
 import ChangePasswordForm from "@/components/me/ChangePasswordForm";
+import { createPageMetadata } from "@/lib/metadata";
+
+export const metadata = createPageMetadata("Passwort ändern");
 
 export default function MeChangePasswordPage() {
   return (

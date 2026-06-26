@@ -1,5 +1,8 @@
 import ComparationView from "@/components/compare-listings/ComparationView";
+import { createPageMetadata } from "@/lib/metadata";
 import { fetchCompareListings } from "@/lib/compare-listings";
+
+export const metadata = createPageMetadata("Vergleich");
 
 export default async function page({
   searchParams,

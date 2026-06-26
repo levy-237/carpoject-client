@@ -1,5 +1,8 @@
 import FavouriteListingsView from "@/components/me/FavouriteListingsView";
+import { createPageMetadata } from "@/lib/metadata";
 import { fetchListingsFavourite } from "@/lib/listings-favourite";
+
+export const metadata = createPageMetadata("Favoriten");
 
 export default async function MeFavouritesPage() {
   const response = await fetchListingsFavourite();

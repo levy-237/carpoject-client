@@ -3,7 +3,7 @@ import ListingSidebarSkeleton from "@/components/skeletons&&errors/ListingSideba
 
 export default function Loading() {
   return (
-    <main className="flex w-full items-start justify-center gap-6 px-4 py-10">
+    <main className="flex w-full items-start justify-center gap-6 px-4 py-10 mt-5">
       <ListingSidebarSkeleton />
       <ListingResultsSkeleton />
     </main>

@@ -1,7 +1,10 @@
 import MeDashboardNav from "@/components/me/MeDashboardNav";
 import VerifyEmailBanner from "@/components/me/VerifyEmailBanner";
 import { getUserProfile } from "@/lib/auth";
+import { createPageMetadata } from "@/lib/metadata";
 import { redirect } from "next/navigation";
+
+export const metadata = createPageMetadata("Mein Konto");
 
 export default async function MeLayout({
   children,

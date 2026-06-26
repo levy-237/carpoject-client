@@ -3,7 +3,9 @@ import {
   myListingFetchToEditForm,
 } from "@/lib/listings-my";
 import ListingForm from "@/components/add-listings/ListingForm";
-import React from "react";
+import { createPageMetadata } from "@/lib/metadata";
+
+export const metadata = createPageMetadata("Anzeige bearbeiten");
 
 export default async function page({ params }: { params: { id: string } }) {
   const { id } = await params;

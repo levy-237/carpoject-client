@@ -1,5 +1,8 @@
 import SignUpForm from "@/components/auth/SignUpForm";
+import { createPageMetadata } from "@/lib/metadata";
 import Link from "next/link";
+
+export const metadata = createPageMetadata("Registrieren");
 
 export default function SignUpPage() {
   return (

@@ -1,4 +1,7 @@
 import ListingForm from "@/components/add-listings/ListingForm";
+import { createPageMetadata } from "@/lib/metadata";
+
+export const metadata = createPageMetadata("Anzeige erstellen");
 
 export default function AddListingsPage() {
   return (

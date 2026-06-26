@@ -1,5 +1,8 @@
 import LoginForm from "@/components/auth/LoginForm";
+import { createPageMetadata } from "@/lib/metadata";
 import Link from "next/link";
+
+export const metadata = createPageMetadata("Anmelden");
 
 export default function LoginPage() {
   return (

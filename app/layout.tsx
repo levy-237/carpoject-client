@@ -6,11 +6,16 @@ import { Providers } from "./providers";
 import AiPopUp from "@/components/ai/AiPopUp";
 import { ToastProvider } from "@/components/ui/ToastProvider";
 import { cookies } from "next/headers";
+import { SITE_NAME } from "@/lib/metadata";
 import { getUserProfile, refreshTokenCookie } from "@/lib/auth";
 
 export const metadata: Metadata = {
-  title: "Car Project",
-  description: "",
+  title: {
+    default: SITE_NAME,
+    template: `%s | ${SITE_NAME}`,
+  },
+  description:
+    "Marktplatz für Elektroautos — suchen, vergleichen, finden.",
 };
 
 export default async function RootLayout({

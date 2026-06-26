@@ -25,7 +25,7 @@ export default function ListingSidebarSkeleton() {
       aria-busy="true"
       aria-label="Filter werden geladen"
       aria-hidden="true"
-      className="flex w-80 shrink-0 animate-pulse flex-col gap-3 rounded-3xl border border-gray-200 bg-white p-6 shadow-lg max-lg:hidden"
+      className="flex w-95 shrink-0 animate-pulse flex-col gap-3 rounded-3xl border border-gray-200 bg-white p-6 shadow-lg max-lg:hidden"
     >
       <div className="h-10 w-full rounded-lg bg-gray-200" />
 

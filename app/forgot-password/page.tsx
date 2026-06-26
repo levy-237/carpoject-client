@@ -1,5 +1,8 @@
 import ForgotPasswordForm from "@/components/auth/ForgotPasswordForm";
+import { createPageMetadata } from "@/lib/metadata";
 import Link from "next/link";
+
+export const metadata = createPageMetadata("Passwort vergessen");
 
 export default function ForgotPasswordPage() {
   return (

@@ -1,5 +1,8 @@
 import MyListingsView from "@/components/me/MyListingsView";
+import { createPageMetadata } from "@/lib/metadata";
 import { fetchMyListings } from "@/lib/listings-my";
+
+export const metadata = createPageMetadata("Meine Anzeigen");
 
 export default async function MeListingsPage() {
   const response = await fetchMyListings();
