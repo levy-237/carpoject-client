@@ -28,6 +28,7 @@ export default function FavouriteListingsView({
               key={listing.id}
               listing={listing}
               isFavourite={true}
+              variant="default"
               handleAddToCompare={() => {}}
               isInCompare={() => false}
             />

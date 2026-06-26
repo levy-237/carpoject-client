@@ -138,6 +138,7 @@ export default function ListingResults({ user }: { user: UserProfile | null }) {
                   key={listing.id}
                   listing={listing}
                   isFavourite={isFavourite}
+                  variant="default"
                   handleAddToCompare={handleAddToCompare}
                   isInCompare={isInCompare}
                 />
