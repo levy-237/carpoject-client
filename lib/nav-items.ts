@@ -7,7 +7,9 @@ export type NavItem = {
 export const UNDER_DEVELOPMENT_MESSAGE = "Diese Seite wird derzeit entwickelt.";
 
 export function isUnderDevelopmentLink(link: string): boolean {
-  return link.startsWith(process.env.UNDER_DEVELOPMENT_LINK ?? "");
+  const underDevelopmentPrefix = process.env.UNDER_DEVELOPMENT_LINK;
+  if (!underDevelopmentPrefix) return false;
+  return link.startsWith(underDevelopmentPrefix);
 }
 
 export const NAV_ITEMS: NavItem[] = [
