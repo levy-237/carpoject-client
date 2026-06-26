@@ -1,5 +1,4 @@
-"use client";
-
+import { ArrowRight, Bot, Send, X } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 import AiChatHeader from "./AiChatHeader";
 import { sendAiMessage, type ChatHistory } from "@/actions/aiChatActions";
@@ -100,20 +99,7 @@ export default function AiChat({ handleClose }: { handleClose: () => void }) {
               className="group flex w-full items-start gap-3 rounded-xl border border-gray-200/80 bg-white px-3 py-2.5 text-left shadow-sm transition-all duration-200 hover:-translate-y-px hover:border-gray-300 hover:shadow-md disabled:cursor-not-allowed disabled:opacity-50"
             >
               <span className="mt-0.5 flex size-6 shrink-0 items-center justify-center rounded-full bg-gray-100 text-gray-500 transition-colors duration-200 group-hover:bg-gray-900 group-hover:text-white">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="2"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  className="size-3.5"
-                  aria-hidden="true"
-                >
-                  <path d="M5 12h14" />
-                  <path d="m12 5 7 7-7 7" />
-                </svg>
+                <ArrowRight className="size-3.5" aria-hidden="true" />
               </span>
               <span className="text-sm leading-snug text-gray-700 group-hover:text-gray-900">
                 {suggestedFollowUpQuestion}
@@ -136,20 +122,7 @@ export default function AiChat({ handleClose }: { handleClose: () => void }) {
             disabled={isLoading}
             className="flex size-10 shrink-0 items-center justify-center rounded-full bg-gray-900 text-white transition-colors duration-200 hover:bg-gray-700 disabled:cursor-not-allowed disabled:opacity-50"
           >
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="2"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              className="size-4"
-              aria-hidden="true"
-            >
-              <path d="m22 2-7 20-4-9-9-4Z" />
-              <path d="M22 2 11 13" />
-            </svg>
+            <Send className="size-4" aria-hidden="true" />
           </button>
         </div>
       </form>

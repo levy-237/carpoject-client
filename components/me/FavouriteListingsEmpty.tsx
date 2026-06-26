@@ -1,28 +1,15 @@
+import { Heart } from "lucide-react";
 import Link from "next/link";
-
-function HeartEmptyIcon() {
-  return (
-    <svg
-      xmlns="http://www.w3.org/2000/svg"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="1.5"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      className="size-8 text-gray-400"
-      aria-hidden="true"
-    >
-      <path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z" />
-    </svg>
-  );
-}
 
 export default function FavouriteListingsEmpty() {
   return (
     <div className="mt-8 flex flex-col items-center justify-center rounded-2xl border border-dashed border-gray-200 bg-gray-50 px-6 py-14 text-center">
       <div className="mb-5 flex size-16 items-center justify-center rounded-full bg-white shadow-sm ring-1 ring-gray-200">
-        <HeartEmptyIcon />
+        <Heart
+          className="size-8 text-gray-400"
+          strokeWidth={1.5}
+          aria-hidden="true"
+        />
       </div>
 
       <h2 className="text-lg font-semibold text-gray-900">

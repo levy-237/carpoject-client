@@ -1,3 +1,4 @@
+import { Check, Home, Plug, Zap } from "lucide-react";
 import Link from "next/link";
 import type { ReactNode } from "react";
 
@@ -28,7 +29,7 @@ const chargingSections: ChargingCard[] = [
       "Sehr angenehm für Pendler und Familien",
       "Planbare Kosten durch regelmäßiges Laden zuhause",
     ],
-    icon: <HomeIcon />,
+    icon: <Home className="h-7 w-7 fill-current" aria-hidden="true" />,
   },
   {
     id: "oeffentlich-laden",
@@ -41,7 +42,7 @@ const chargingSections: ChargingCard[] = [
       "Hilfreich in Städten und Wohngebieten",
       "Ladekarten und Apps vorher vergleichen",
     ],
-    icon: <PlugIcon />,
+    icon: <Plug className="h-7 w-7 fill-current" aria-hidden="true" />,
   },
   {
     id: "schnellladen",
@@ -54,7 +55,7 @@ const chargingSections: ChargingCard[] = [
       "20–80 % ist oft relevanter als 0–100 %",
       "Akkugröße, Verbrauch und Ladeleistung zusammen betrachten",
     ],
-    icon: <BoltIcon />,
+    icon: <Zap className="h-7 w-7 fill-current" aria-hidden="true" />,
   },
 ];
 
@@ -129,7 +130,7 @@ export default function AufladenPage() {
               <div className="rounded-[1.5rem] bg-neutral-950 p-6 text-white">
                 <div className="mb-10 flex items-center justify-between">
                   <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-emerald-400 text-neutral-950">
-                    <BoltIcon />
+                    <Zap className="h-7 w-7 fill-current" aria-hidden="true" />
                   </div>
                   <span className="rounded-full bg-white/10 px-4 py-2 text-sm font-semibold text-white/80">
                     20–80 %
@@ -215,7 +216,10 @@ export default function AufladenPage() {
                     key={point}
                     className="flex gap-3 text-sm font-medium leading-6 text-neutral-700"
                   >
-                    <CheckIcon />
+                    <Check
+                      className="mt-1 h-5 w-5 shrink-0 text-emerald-600"
+                      aria-hidden="true"
+                    />
                     <span>{point}</span>
                   </li>
                 ))}
@@ -297,7 +301,10 @@ export default function AufladenPage() {
                   key={item}
                   className="flex gap-3 rounded-2xl bg-neutral-50 p-4 text-sm font-semibold leading-6 text-neutral-750"
                 >
-                  <CheckIcon />
+                  <Check
+                    className="mt-1 h-5 w-5 shrink-0 text-emerald-600"
+                    aria-hidden="true"
+                  />
                   <span>{item}</span>
                 </li>
               ))}
@@ -374,61 +381,5 @@ function MiniStat({ label, value }: { label: string; value: string }) {
       </p>
       <p className="mt-1 font-black text-white">{value}</p>
     </div>
-  );
-}
-
-function CheckIcon() {
-  return (
-    <svg
-      className="mt-1 h-5 w-5 shrink-0 text-emerald-600"
-      viewBox="0 0 20 20"
-      fill="currentColor"
-      aria-hidden="true"
-    >
-      <path
-        fillRule="evenodd"
-        d="M16.704 5.29a1 1 0 0 1 .006 1.414l-7.25 7.31a1 1 0 0 1-1.42 0L3.29 9.224a1 1 0 0 1 1.42-1.408l4.04 4.074 6.54-6.594a1 1 0 0 1 1.414-.006Z"
-        clipRule="evenodd"
-      />
-    </svg>
-  );
-}
-
-function BoltIcon() {
-  return (
-    <svg
-      className="h-7 w-7"
-      viewBox="0 0 24 24"
-      fill="currentColor"
-      aria-hidden="true"
-    >
-      <path d="M13.2 2.4 4.6 13.2c-.5.7 0 1.8.9 1.8h5.1l-.8 6.3c-.1 1.1 1.2 1.7 1.9.8l8.6-11c.5-.7 0-1.7-.9-1.7h-5.1l.8-6.1c.2-1.1-1.2-1.8-1.9-.9Z" />
-    </svg>
-  );
-}
-
-function HomeIcon() {
-  return (
-    <svg
-      className="h-7 w-7"
-      viewBox="0 0 24 24"
-      fill="currentColor"
-      aria-hidden="true"
-    >
-      <path d="M11.3 2.7a1 1 0 0 1 1.4 0l8 7.4a1 1 0 0 1-1.4 1.5l-.3-.3V20a1 1 0 0 1-1 1h-4.2a1 1 0 0 1-1-1v-4.5h-1.6V20a1 1 0 0 1-1 1H6a1 1 0 0 1-1-1v-8.7l-.3.3a1 1 0 1 1-1.4-1.5l8-7.4Z" />
-    </svg>
-  );
-}
-
-function PlugIcon() {
-  return (
-    <svg
-      className="h-7 w-7"
-      viewBox="0 0 24 24"
-      fill="currentColor"
-      aria-hidden="true"
-    >
-      <path d="M8 2a1 1 0 0 1 1 1v4h2V3a1 1 0 1 1 2 0v4h1a2 2 0 0 1 2 2v2.5a5 5 0 0 1-4 4.9V19a3 3 0 0 0 3 3h1a1 1 0 1 0 0-2h-1a1 1 0 0 1-1-1v-2.6a5 5 0 0 0 4-4.9V9a4 4 0 0 0-4-4h-1V3a1 1 0 1 1 2 0v2h1a2 2 0 0 1 2 2v4.5a7 7 0 0 1-4 6.3V19a1 1 0 0 0 1 1h1a3 3 0 1 1 0 6h-1a5 5 0 0 1-5-5v-2.6A7 7 0 0 1 6 11.5V9a2 2 0 0 1 2-2h1V3a1 1 0 0 1 1-1Z" />
-    </svg>
   );
 }

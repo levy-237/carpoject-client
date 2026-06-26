@@ -1,3 +1,4 @@
+import { Pencil } from "lucide-react";
 import type { UserProfile } from "@/actions/authActions";
 import { formatDate } from "@/lib/format";
 import Link from "next/link";
@@ -111,20 +112,11 @@ export default function ProfileView({ user }: { user: UserProfile }) {
           href="/me/edit"
           className="inline-flex w-full items-center justify-center gap-2 rounded-full bg-gray-900 px-6 py-3 text-sm font-semibold text-white transition-colors duration-200 hover:bg-gray-700 sm:ml-auto sm:w-auto"
         >
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            strokeWidth={1.75}
-            strokeLinecap="round"
-            strokeLinejoin="round"
+          <Pencil
             className="size-4 shrink-0"
+            strokeWidth={1.75}
             aria-hidden="true"
-          >
-            <path d="M17 3a2.85 2.85 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5Z" />
-            <path d="m15 5 4 4" />
-          </svg>
+          />
           Profil bearbeiten
         </Link>
       </div>

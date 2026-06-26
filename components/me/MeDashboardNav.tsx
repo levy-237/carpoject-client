@@ -1,7 +1,10 @@
 "use client";
 
+import { logout } from "@/actions/authActions";
+import { LogOut } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { useRouter } from "next/navigation";
 
 const NAV_ITEMS = [
   { href: "/me", label: "Profil", exact: true },
@@ -20,6 +23,12 @@ function isActive(pathname: string, href: string, exact?: boolean) {
 
 export default function MeDashboardNav() {
   const pathname = usePathname();
+  const router = useRouter();
+
+  const handleLogout = async () => {
+    await logout();
+    router.push("/login");
+  };
 
   return (
     <nav className="flex flex-col gap-1">
@@ -43,6 +52,13 @@ export default function MeDashboardNav() {
           </Link>
         );
       })}
+      <button
+        className="rounded-xl px-4 py-2.5 text-sm font-medium transition-colors text-gray-600 hover:bg-gray-100 hover:text-gray-900 flex items-center gap-2 cursor-pointer"
+        onClick={handleLogout}
+      >
+        Abmelden
+        <LogOut className="size-4" aria-hidden="true" />
+      </button>
     </nav>
   );
 }

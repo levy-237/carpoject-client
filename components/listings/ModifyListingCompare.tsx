@@ -1,24 +1,4 @@
-function CompareIcon() {
-  return (
-    <svg
-      xmlns="http://www.w3.org/2000/svg"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth={1.75}
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      className="size-4 shrink-0"
-      aria-hidden="true"
-    >
-      <path d="M16 3h5v5" />
-      <path d="M8 3H3v5" />
-      <path d="M21 8v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8" />
-      <path d="m21 3-7 7" />
-      <path d="m3 3 7 7" />
-    </svg>
-  );
-}
+import { GitCompareArrows } from "lucide-react";
 
 export default function ModifyListingCompare({
   id,
@@ -46,7 +26,11 @@ export default function ModifyListingCompare({
         }`}
         aria-pressed={compared}
       >
-        <CompareIcon />
+        <GitCompareArrows
+          className="size-4 shrink-0"
+          strokeWidth={1.75}
+          aria-hidden="true"
+        />
         {compared ? "Im Vergleich" : "Vergleichen"}
       </button>
     </div>
