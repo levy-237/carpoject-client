@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import { Header } from "@/components/layout/Header";
+import Footer from "@/components/layout/Footer";
 import { Providers } from "./providers";
 import AiPopUp from "@/components/ai/AiPopUp";
 import { ToastProvider } from "@/components/ui/ToastProvider";
@@ -35,6 +36,7 @@ export default async function RootLayout({
             isVerified={isVerified}
           />
           {children}
+          <Footer />
           <AiPopUp />
           <ToastProvider />
         </Providers>
