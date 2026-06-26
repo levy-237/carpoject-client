@@ -1,6 +1,7 @@
 import Link from "next/link";
 import FavoriteListingButton from "@/components/listings/FavoriteListingButton";
 import ListingImageGallery from "@/components/listings/ListingImageGallery";
+import { formatDate } from "@/lib/format";
 import type { Listing } from "@/lib/listings";
 import { formatMileage, formatPrice, formatYear } from "@/lib/listings";
 
@@ -25,14 +26,6 @@ function InfoPill({ children }: { children: React.ReactNode }) {
       {children}
     </span>
   );
-}
-
-function formatDate(dateString: string) {
-  return new Date(dateString).toLocaleDateString("de-DE", {
-    day: "numeric",
-    month: "long",
-    year: "numeric",
-  });
 }
 
 export default function ListingDetailView({

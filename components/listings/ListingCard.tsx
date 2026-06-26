@@ -3,6 +3,7 @@ import FavoriteListingButton from "@/components/listings/FavoriteListingButton";
 import type { Listing } from "@/lib/listings";
 import { formatMileage, formatPrice, formatYear } from "@/lib/listings";
 import { useRouter } from "next/navigation";
+import ModifyListingCompare from "./ModifyListingCompare";
 
 function PremiumAdBadge() {
   return (
@@ -113,10 +114,17 @@ export default function ListingCard({
   listing,
   isFavourite = false,
   variant = "default",
+  handleAddToCompare = () => {},
+  isInCompare = () => false,
 }: {
   listing: Listing;
   isFavourite: boolean;
   variant?: "default" | "owner";
+  handleAddToCompare: (
+    event: React.MouseEvent<HTMLButtonElement>,
+    id: number,
+  ) => void;
+  isInCompare: (id: number) => boolean;
 }) {
   const year = formatYear(listing.makeyear);
 
@@ -125,8 +133,13 @@ export default function ListingCard({
   return (
     <Link
       href={`/listings/${listing.id}`}
-      className="group flex min-w-0 w-full flex-col overflow-hidden rounded-2xl border border-gray-200 bg-white shadow-sm transition-shadow duration-300 hover:shadow-md md:h-100 md:flex-row"
+      className="relative group flex min-w-0 w-full flex-col overflow-hidden rounded-2xl border border-gray-200 bg-white shadow-sm transition-shadow duration-300 hover:shadow-md md:h-100 md:flex-row"
     >
+      <ModifyListingCompare
+        id={Number(listing.id)}
+        handleAddToCompare={handleAddToCompare}
+        isInCompare={isInCompare}
+      />
       <div className="relative aspect-[4/3] w-full shrink-0 overflow-hidden bg-gray-100 md:aspect-auto md:h-full md:w-[40%]">
         <img
           src={listing.cover_image?.image ?? "/placeholder.png"}

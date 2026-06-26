@@ -7,20 +7,56 @@ import ListingCard from "./ListingCard";
 import ListingResultsEmpty from "./ListingResultsEmpty";
 import Pagination from "./Pagination";
 import ListingResultsSkeleton from "../skeletons&&errors/ListingResultsSkeleton";
-import { useQueryStates } from "nuqs";
+import {
+  parseAsArrayOf,
+  parseAsInteger,
+  useQueryState,
+  useQueryStates,
+} from "nuqs";
 import { detailSearchParsers } from "@/lib/detail-search";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import FiltersDelete from "../filters/FiltersDelete";
 import { type UserProfile } from "@/actions/authActions";
+import ListingCompareButton from "./ListingCompareButton";
 
 export default function ListingResults({ user }: { user: UserProfile | null }) {
   const router = useRouter();
+  const searchParams = useSearchParams();
   const [count, setCount] = useState(0);
   const [results, setResults] = useState<Listing[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
   const [filters] = useQueryStates(detailSearchParsers);
+
+  const [compareListings, setCompareListings] = useQueryState<number[]>(
+    "compare",
+    parseAsArrayOf(parseAsInteger),
+  );
+
+  const handleAddToCompare = (
+    event: React.MouseEvent<HTMLButtonElement>,
+    id: number,
+  ) => {
+    event.preventDefault();
+    event.stopPropagation();
+
+    if (compareListings && compareListings.includes(id)) {
+      setCompareListings(
+        compareListings.filter((listingId) => listingId !== id),
+      );
+    } else {
+      if (compareListings && compareListings.length >= 3) {
+        alert("You can only compare up to 3 listings");
+        return;
+      }
+      setCompareListings([...(compareListings || []), id]);
+    }
+  };
+
+  const isInCompare = (id: number) => compareListings?.includes(id) || false;
+
+  const isComparationOn = compareListings && compareListings.length > 0;
 
   useEffect(() => {
     let isCancelled = false;
@@ -102,11 +138,16 @@ export default function ListingResults({ user }: { user: UserProfile | null }) {
                   key={listing.id}
                   listing={listing}
                   isFavourite={isFavourite}
+                  handleAddToCompare={handleAddToCompare}
+                  isInCompare={isInCompare}
                 />
               );
             })}
           </div>
           <Pagination count={count} />{" "}
+          {isComparationOn && (
+            <ListingCompareButton compareListings={compareListings} />
+          )}
         </>
       ) : (
         <ListingResultsEmpty filters={filters} />

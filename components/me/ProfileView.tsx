@@ -1,13 +1,6 @@
 import type { UserProfile } from "@/actions/authActions";
+import { formatDate } from "@/lib/format";
 import Link from "next/link";
-
-function formatDate(dateString: string) {
-  return new Date(dateString).toLocaleDateString("de-DE", {
-    day: "numeric",
-    month: "long",
-    year: "numeric",
-  });
-}
 
 function formatList(items: number[]) {
   return items.length > 0 ? items.join(", ") : "—";
