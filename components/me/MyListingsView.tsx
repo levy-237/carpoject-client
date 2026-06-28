@@ -2,29 +2,10 @@
 
 import { Pencil, Trash2 } from "lucide-react";
 import ListingCard from "@/components/listings/ListingCard";
+import { getListingStatus } from "@/components/listings/listingDisplay";
 import MyListingsEmpty from "@/components/me/MyListingsEmpty";
 import type { Listing } from "@/lib/listings";
 import Link from "next/link";
-
-function getListingStatus(listing: Listing) {
-  if (listing.is_sold) {
-    return { label: "Verkauft", className: "bg-purple-100 text-purple-800" };
-  }
-
-  if (listing.is_reserved) {
-    return { label: "Reserviert", className: "bg-blue-100 text-blue-800" };
-  }
-
-  if (listing.is_under_review) {
-    return { label: "In Prüfung", className: "bg-amber-100 text-amber-800" };
-  }
-
-  if (listing.is_online) {
-    return { label: "Online", className: "bg-green-100 text-green-800" };
-  }
-
-  return { label: "Offline", className: "bg-gray-100 text-gray-700" };
-}
 
 function ListingStatusBadge({ listing }: { listing: Listing }) {
   const status = getListingStatus(listing);

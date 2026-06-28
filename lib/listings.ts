@@ -25,11 +25,15 @@ type Owner = {
 type ModelTrimDetail = {
   id: number;
   name: string;
+  connected_model: number;
+  connected_model_name: string;
+  battery_size: number | null;
+  factory_range: number | null;
   max_ac_charge_kw: number;
   max_dc_charge_kw: number;
   twenty_to_eighty_charge_min: number;
-  drivetrain: number;
-  drivetrain_detail: IdName;
+  drivetrain: number | null;
+  drivetrain_detail?: IdName | null;
 };
 
 type ListingImage = {

@@ -1,4 +1,10 @@
 import Link from "next/link";
+import {
+  formatBoolean,
+  formatOptionalValue,
+  formatPositiveNumber,
+  getListingStatus,
+} from "@/components/listings/listingDisplay";
 import { formatDate } from "@/lib/format";
 import type { Listing } from "@/lib/listings";
 import {
@@ -6,18 +12,6 @@ import {
   formatPrice,
   formatYear,
 } from "@/lib/listings";
-
-function formatBoolean(value: boolean) {
-  return value ? "Ja" : "Nein";
-}
-
-function formatOptional(
-  value: string | number | null | undefined,
-  suffix = "",
-) {
-  if (value === null || value === undefined || value === "") return "—";
-  return `${value}${suffix}`;
-}
 
 function CompareSpecRow({
   label,
@@ -61,32 +55,7 @@ function ListingStatuses({ listing }: { listing: Listing }) {
       className: "bg-amber-100 text-amber-800",
     });
   }
-  if (listing.is_sold) {
-    badges.push({
-      label: "Verkauft",
-      className: "bg-purple-100 text-purple-800",
-    });
-  } else if (listing.is_reserved) {
-    badges.push({
-      label: "Reserviert",
-      className: "bg-blue-100 text-blue-800",
-    });
-  } else if (listing.is_under_review) {
-    badges.push({
-      label: "In Prüfung",
-      className: "bg-amber-100 text-amber-800",
-    });
-  } else if (listing.is_online) {
-    badges.push({
-      label: "Online",
-      className: "bg-green-100 text-green-800",
-    });
-  } else {
-    badges.push({
-      label: "Offline",
-      className: "bg-gray-100 text-gray-700",
-    });
-  }
+  badges.push(getListingStatus(listing));
 
   return (
     <div className="flex flex-wrap gap-2">
@@ -149,34 +118,29 @@ function CompareListingCard({ listing }: { listing: Listing }) {
           />
           <CompareSpecRow
             label="Sommerreichweite"
-            value={formatOptional(listing.real_summer_range, " km")}
+            value={formatOptionalValue(listing.real_summer_range, " km")}
           />
           <CompareSpecRow
             label="Winterreichweite"
-            value={formatOptional(listing.real_winter_range, " km")}
+            value={formatOptionalValue(listing.real_winter_range, " km")}
           />
           <CompareSpecRow label="Wärmepumpe" value={formatBoolean(listing.heat_pump)} />
           <CompareSpecRow label="Garantie" value={formatBoolean(listing.garantie)} />
           <CompareSpecRow label="Pickerl" value={formatBoolean(listing.pickerl)} />
           <CompareSpecRow
             label="DC-Laden"
-            value={
-              trim.max_dc_charge_kw > 0 ? `${trim.max_dc_charge_kw} kW` : "—"
-            }
+            value={formatPositiveNumber(trim.max_dc_charge_kw, " kW")}
           />
           <CompareSpecRow
             label="AC-Laden"
-            value={
-              trim.max_ac_charge_kw > 0 ? `${trim.max_ac_charge_kw} kW` : "—"
-            }
+            value={formatPositiveNumber(trim.max_ac_charge_kw, " kW")}
           />
           <CompareSpecRow
             label="20–80 % Laden"
-            value={
-              trim.twenty_to_eighty_charge_min > 0
-                ? `${trim.twenty_to_eighty_charge_min} Min.`
-                : "—"
-            }
+            value={formatPositiveNumber(
+              trim.twenty_to_eighty_charge_min,
+              " Min.",
+            )}
           />
           <CompareSpecRow label="Aufrufe" value={listing.view_count.toLocaleString("de-DE")} />
           <CompareSpecRow
