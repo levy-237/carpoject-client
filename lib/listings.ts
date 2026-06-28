@@ -170,3 +170,34 @@ export async function fetchListingDetail(
     ...data,
   };
 }
+
+type TopDealsResponse = {
+  success: boolean;
+  message: string;
+  listings?: Listing[];
+};
+
+export async function fetchTopDeals(): Promise<TopDealsResponse> {
+  const fetchurl = `${API_BASE_URL}listings/most-viewed/`;
+
+  console.log(fetchurl);
+
+  const response = await fetch(fetchurl, {
+    cache: "no-store",
+  });
+
+  const data = await response.json();
+  if (!response.ok) {
+    return {
+      success: false,
+      message: data.detail || data.error || "Failed to fetch top deals",
+      listings: [],
+    };
+  }
+
+  return {
+    success: true,
+    message: "Top deals fetched successfully",
+    listings: data.results,
+  };
+}
