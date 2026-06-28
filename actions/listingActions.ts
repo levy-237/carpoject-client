@@ -1,6 +1,7 @@
 "use server";
 
 import { getAccessToken } from "@/lib/auth";
+import { formatToYYYYMMDD } from "@/lib/format";
 import {
   AddListingSchema,
   type AddListingFormValues,
@@ -35,13 +36,18 @@ export async function createListing(
     };
   }
 
+  const payload = {
+    ...parsed.data,
+    makeyear: formatToYYYYMMDD(parsed.data.makeyear),
+  };
+
   const response = await fetch(`${process.env.API_BASE_URL}listings/`, {
     method: "POST",
     headers: {
       Authorization: `Bearer ${accessToken}`,
       "Content-Type": "application/json",
     },
-    body: JSON.stringify(parsed.data),
+    body: JSON.stringify(payload),
   });
 
   const responseData = await response.json();
@@ -86,13 +92,18 @@ export async function updateListing({
     };
   }
 
+  const payload = {
+    ...parsed.data,
+    makeyear: formatToYYYYMMDD(parsed.data.makeyear),
+  };
+
   const response = await fetch(`${process.env.API_BASE_URL}listings/${id}/`, {
     method: "PATCH",
     headers: {
       Authorization: `Bearer ${accessToken}`,
       "Content-Type": "application/json",
     },
-    body: JSON.stringify(parsed.data),
+    body: JSON.stringify(payload),
   });
 
   const responseData = await response.json();

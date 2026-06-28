@@ -54,10 +54,14 @@ export default function LandingSearchBar() {
   };
 
   return (
-    <section className="flex h-fit items-center justify-center px-4 py-30 max-md:py-5">
+    <section className="relative flex h-fit items-center justify-center bg-white px-4 py-30 max-md:py-5">
+      <div
+        aria-hidden
+        className="pointer-events-none absolute inset-x-0 top-0 z-0 h-2/3 bg-[url('/search-bg1.png')] bg-cover bg-bottom bg-no-repeat"
+      />
       <form
         onSubmit={handleSubmit}
-        className="w-full max-w-4xl rounded-3xl border border-gray-200 bg-white p-10 shadow-lg"
+        className="relative z-10 w-full max-w-4xl rounded-3xl border border-gray-200 bg-white p-10 shadow-lg"
       >
         <SearchBar value={search} onChange={setSearch} />
 
