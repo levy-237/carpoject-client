@@ -17,18 +17,27 @@ export default function HeaderDropdown({
   handleMouseLeave: () => void;
 }) {
   const found_item = item ? DROPDOWN_ITEMS[item] : [];
+  const isFahrzeugeDropdown = item === "Fahrzeuge";
+  const imageCardClass = isFahrzeugeDropdown
+    ? "relative px-2 py-2 transition-transform duration-300 group-hover:-translate-y-1.5"
+    : "relative overflow-hidden rounded-2xl border border-gray-200/80 bg-linear-to-b from-white via-gray-50/90 to-gray-100/80 px-6 py-5 shadow-sm transition-[transform,box-shadow,border-color] duration-300 group-hover:-translate-y-1.5 group-hover:border-gray-300 group-hover:shadow-md";
 
   return (
     <div
       onMouseLeave={handleMouseLeave}
-      className="fadeIn absolute z-5000 top-16 left-0 right-0 h-fit bg-white flex justify-center w-full pl-45 pr-45 pt-5 pb-5 max-xl:pl-15 max-xl:pr-15 max-sm:flex-col max-sm:pr-3 max-sm:pl-3"
+      className="fadeIn absolute z-5000 top-16 left-0 right-0 h-fit border-t border-gray-100 bg-white shadow-lg flex justify-center w-full pl-45 pr-45 pt-8 pb-8 max-xl:pl-15 max-xl:pr-15 max-sm:flex-col max-sm:pr-3 max-sm:pl-3 max-sm:pt-6 max-sm:pb-6"
     >
-      <div className="flex w-[70%] flex-row flex-wrap items-center justify-around gap-10 max-sm:w-full max-sm:flex-col max-sm:items-center">
-        {found_item.map((dropdownItem) => (
-          <div key={dropdownItem.id} onClick={handleMouseLeave}>
+      <div className="flex w-[70%] flex-row flex-wrap items-center justify-around gap-8 max-sm:w-full max-sm:flex-col max-sm:items-center max-sm:gap-6">
+        {found_item.map((dropdownItem, index) => (
+          <div
+            key={`${item}-${dropdownItem.id}`}
+            onClick={handleMouseLeave}
+            className="dropdownItemIn"
+            style={{ animationDelay: `${index * 70}ms` }}
+          >
             <Link
               href={dropdownItem.link}
-              className="group flex flex-col flex-wrap items-center justify-center gap-2 max-sm:flex-col"
+              className="group flex flex-col items-center justify-center gap-3 max-sm:flex-col"
               onClick={(e) => {
                 if (isUnderDevelopmentLink(dropdownItem.link)) {
                   e.preventDefault();
@@ -36,12 +45,20 @@ export default function HeaderDropdown({
                 }
               }}
             >
-              <img
-                src={dropdownItem.icon}
-                alt={dropdownItem.title}
-                className="h-30 w-55 object-contain transition-transform duration-300 group-hover:scale-105"
-              />
-              <p className={`text-sm font-semibold mt-2 ${sidebarLinkClass}`}>
+              <div className={imageCardClass}>
+                {!isFahrzeugeDropdown && (
+                  <div
+                    className="pointer-events-none absolute inset-0 bg-linear-to-tr from-transparent via-white/60 to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100"
+                    aria-hidden="true"
+                  />
+                )}
+                <img
+                  src={dropdownItem.icon}
+                  alt={dropdownItem.title}
+                  className="relative h-30 w-55 object-contain transition-transform duration-500 ease-out group-hover:scale-110"
+                />
+              </div>
+              <p className={`text-sm font-semibold ${sidebarLinkClass}`}>
                 {dropdownItem.title}
               </p>
             </Link>
