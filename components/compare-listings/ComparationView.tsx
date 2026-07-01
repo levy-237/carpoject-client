@@ -6,12 +6,12 @@ import {
   getListingStatus,
 } from "@/components/listings/listingDisplay";
 import { formatDate } from "@/lib/format";
-import type { Listing } from "@/lib/listings";
 import {
   formatMileage,
   formatPrice,
   formatYear,
 } from "@/lib/listings";
+import type { Listing } from "@/types/listings";
 
 function CompareSpecRow({
   label,

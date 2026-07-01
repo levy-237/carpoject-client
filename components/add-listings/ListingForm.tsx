@@ -2,7 +2,6 @@
 
 import {
   createListing,
-  MutateListingResponse,
   updateListing,
 } from "@/actions/listingActions";
 import BooleanSelect from "@/components/filters/BooleanSelect";
@@ -12,10 +11,8 @@ import type { BooleanFilterValue } from "@/lib/detail-search";
 import FieldError from "./FieldError";
 import FormInput from "./FormInput";
 import FormTextarea from "./FormTextarea";
-import {
-  AddListingSchema,
-  type AddListingFormValues,
-} from "@/schemas/listings";
+import { AddListingSchema } from "@/schemas/listings";
+import type { AddListingFormValues } from "@/types/listings";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useRouter } from "next/navigation";
 import {

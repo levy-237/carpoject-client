@@ -1,107 +1,12 @@
+import type {
+  Listing,
+  ListingArrayResponse,
+  ListingDetailResponse,
+  ListingListResponse,
+  ListingsResponse,
+} from "@/types/listings";
+
 const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL ?? "";
-
-export type ListingItem = {
-  id: number;
-  title: string;
-  price: string;
-  year: number;
-  mileage: string;
-  location: string;
-  drivetrain: string;
-  image: string;
-  link: string;
-};
-
-type IdName = {
-  id: number;
-  name: string;
-};
-
-type Owner = {
-  id: number;
-  username: string;
-};
-
-type ModelTrimDetail = {
-  id: number;
-  name: string;
-  connected_model: number;
-  connected_model_name: string;
-  battery_size: number | null;
-  factory_range: number | null;
-  max_ac_charge_kw: number;
-  max_dc_charge_kw: number;
-  twenty_to_eighty_charge_min: number;
-  drivetrain: number | null;
-  drivetrain_detail?: IdName | null;
-};
-
-type ListingImage = {
-  id: number;
-  local_url: string;
-  image: string;
-  storage_key: string;
-  created_at: string;
-  is_cover: boolean;
-};
-
-export type Listing = {
-  id: number;
-  url: string;
-  publish_date: string;
-  owner: Owner;
-  title: string;
-
-  brand: number;
-  brand_detail: IdName;
-
-  model: number;
-  model_detail: IdName;
-
-  model_trim: number;
-  model_trim_detail: ModelTrimDetail;
-
-  makeyear: string;
-  price: number;
-  price_history: unknown[];
-
-  body_type: number;
-  body_type_detail: IdName;
-
-  mileage: number;
-
-  condition: number;
-  condition_detail: IdName;
-
-  power: number;
-  battery_health: number | null;
-
-  real_summer_range: number | null;
-  real_winter_range: number | null;
-
-  heat_pump: boolean;
-  garantie: boolean;
-  pickerl: boolean;
-
-  description: string;
-  view_count: number;
-  is_online: boolean;
-  is_premium: boolean;
-  is_sold: boolean;
-  is_under_review: boolean;
-  is_reserved: boolean;
-
-  images: ListingImage[];
-  favourite_count: number;
-  cover_image: ListingImage | null;
-};
-
-export type ListingsResponse = {
-  count: number;
-  next: string | null;
-  previous: string | null;
-  results: Listing[];
-};
 
 export function formatPrice(price: number): string {
   return new Intl.NumberFormat("de-DE", {
@@ -121,7 +26,7 @@ export function formatMileage(mileage: number): string {
 
 export async function fetchListings(
   queryString: string,
-): Promise<ListingsResponse> {
+): Promise<ListingListResponse> {
   const fetchurl = queryString
     ? `${API_BASE_URL}listings/?${queryString}`
     : `${API_BASE_URL}listings/`;
@@ -133,24 +38,21 @@ export async function fetchListings(
   });
 
   if (!response.ok) {
-    throw new Error(`Failed to fetch listings (${response.status})`);
+    return {
+      success: false,
+      message: `Failed to fetch listings (${response.status})`,
+      data: null,
+    };
   }
 
-  return response.json();
+  const data = (await response.json()) as ListingsResponse;
+
+  return {
+    success: true,
+    message: "Listings fetched successfully",
+    data,
+  };
 }
-
-export type ListingDetailSuccessResponse = Listing & {
-  success: true;
-};
-
-export type ListingDetailErrorResponse = {
-  success: false;
-  message: string;
-};
-
-export type ListingDetailResponse =
-  | ListingDetailSuccessResponse
-  | ListingDetailErrorResponse;
 
 export async function fetchListingDetail(
   id: number,
@@ -165,23 +67,19 @@ export async function fetchListingDetail(
     return {
       success: false,
       message: data.detail || data.error || "Failed to fetch listing",
+      data: null,
     };
   }
   console.log(data);
 
   return {
     success: true,
-    ...data,
+    message: "Listing fetched successfully",
+    data: data as Listing,
   };
 }
 
-type TopDealsResponse = {
-  success: boolean;
-  message: string;
-  listings?: Listing[];
-};
-
-export async function fetchTopDeals(): Promise<TopDealsResponse> {
+export async function fetchTopDeals(): Promise<ListingArrayResponse> {
   const fetchurl = `${API_BASE_URL}listings/most-viewed/`;
 
   console.log(fetchurl);
@@ -195,13 +93,13 @@ export async function fetchTopDeals(): Promise<TopDealsResponse> {
     return {
       success: false,
       message: data.detail || data.error || "Failed to fetch top deals",
-      listings: [],
+      data: null,
     };
   }
 
   return {
     success: true,
     message: "Top deals fetched successfully",
-    listings: data.results,
+    data: data.results as Listing[],
   };
 }

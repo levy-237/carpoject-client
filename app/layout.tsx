@@ -28,7 +28,7 @@ export default async function RootLayout({
   const isAuthenticated = Boolean(refreshToken);
 
   const response = isAuthenticated ? await getUserProfile() : null;
-  const profile = response?.success ? response : null;
+  const profile = response?.success ? response.data : null;
   const isVerified = profile && profile.is_verified;
 
   return (

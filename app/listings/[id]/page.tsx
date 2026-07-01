@@ -25,7 +25,7 @@ export async function generateMetadata({
     return createPageMetadata("Anzeige");
   }
 
-  return createPageMetadata(listing.title);
+  return createPageMetadata(listing.data.title);
 }
 
 export default async function ListingDetailPage({ params }: ListingDetailPageProps) {
@@ -45,11 +45,14 @@ export default async function ListingDetailPage({ params }: ListingDetailPagePro
     notFound();
   }
 
-  const user = userResponse.success ? userResponse : null;
+  const user = userResponse.success ? userResponse.data : null;
   const isFavourite =
-    user?.favourite_listings.includes(listingResponse.id) ?? false;
+    user?.favourite_listings.includes(listingResponse.data.id) ?? false;
 
   return (
-    <ListingDetailView listing={listingResponse} isFavourite={isFavourite} />
+    <ListingDetailView
+      listing={listingResponse.data}
+      isFavourite={isFavourite}
+    />
   );
 }

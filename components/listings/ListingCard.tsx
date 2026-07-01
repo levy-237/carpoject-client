@@ -1,8 +1,8 @@
 import { Eye, Heart, Volume2 } from "lucide-react";
 import Link from "next/link";
 import FavoriteListingButton from "@/components/listings/FavoriteListingButton";
-import type { Listing } from "@/lib/listings";
 import { formatMileage, formatPrice, formatYear } from "@/lib/listings";
+import type { Listing } from "@/types/listings";
 import { useRouter } from "next/navigation";
 import ModifyListingCompare from "./ModifyListingCompare";
 

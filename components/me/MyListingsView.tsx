@@ -4,7 +4,7 @@ import { Pencil, Trash2 } from "lucide-react";
 import ListingCard from "@/components/listings/ListingCard";
 import { getListingStatus } from "@/components/listings/listingDisplay";
 import MyListingsEmpty from "@/components/me/MyListingsEmpty";
-import type { Listing } from "@/lib/listings";
+import type { Listing } from "@/types/listings";
 import Link from "next/link";
 
 function ListingStatusBadge({ listing }: { listing: Listing }) {

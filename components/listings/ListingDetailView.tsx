@@ -1,6 +1,6 @@
 import Link from "next/link";
 import ListingImageGallery from "@/components/listings/ListingImageGallery";
-import type { Listing } from "@/lib/listings";
+import type { Listing } from "@/types/listings";
 import ListingDetailDescription from "./detail/ListingDetailDescription";
 import ListingDetailInfoGrid from "./detail/ListingDetailInfoGrid";
 import ListingDetailSummary from "./detail/ListingDetailSummary";

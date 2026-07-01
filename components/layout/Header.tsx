@@ -1,6 +1,7 @@
 "use client";
 
-import { AuthMeSuccessResponse, logout } from "@/actions/authActions";
+import { logout } from "@/actions/authActions";
+import type { UserProfile } from "@/types/users";
 import { Plus } from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
@@ -20,7 +21,7 @@ export function Header({
   isVerified,
 }: {
   isAuthenticated: boolean;
-  profile: AuthMeSuccessResponse | null;
+  profile: UserProfile | null;
   isVerified: boolean | null;
 }) {
   const router = useRouter();

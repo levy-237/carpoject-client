@@ -1,4 +1,4 @@
-import type { Listing } from "@/lib/listings";
+import type { Listing } from "@/types/listings";
 
 export default function ListingDetailDescription({
   listing,

@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import type { Listing } from "@/lib/listings";
+import type { Listing } from "@/types/listings";
 
 export default function ListingImageGallery({ listing }: { listing: Listing }) {
   const images =

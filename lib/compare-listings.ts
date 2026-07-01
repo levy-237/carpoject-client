@@ -1,14 +1,8 @@
-import { Listing, ListingsResponse } from "./listings";
-
-type CompareListingResponse = {
-  success: boolean;
-  message: string;
-  listings: Listing[];
-};
+import type { Listing, ListingArrayResponse } from "@/types/listings";
 
 export async function fetchCompareListings(
   queryString: string,
-): Promise<CompareListingResponse> {
+): Promise<ListingArrayResponse> {
   const fetchurl = `${process.env.API_BASE_URL}listings/compare/?ids=${queryString}`;
 
   console.log(fetchurl);
@@ -22,13 +16,13 @@ export async function fetchCompareListings(
     return {
       success: false,
       message: data.detail || data.error || "Failed to fetch listings",
-      listings: [],
+      data: null,
     };
   }
 
   return {
     success: true,
     message: "Listings fetched successfully",
-    listings: data.results,
+    data: data.results as Listing[],
   };
 }

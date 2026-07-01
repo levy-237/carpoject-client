@@ -16,5 +16,10 @@ export default async function MeListingsPage() {
     );
   }
 
-  return <MyListingsView listings={response.results} count={response.count} />;
+  return (
+    <MyListingsView
+      listings={response.data.results}
+      count={response.data.count}
+    />
+  );
 }

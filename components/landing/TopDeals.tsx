@@ -3,10 +3,10 @@ import Carousel from "@/components/ui/Carousel";
 import { fetchTopDeals } from "@/lib/listings";
 
 export default async function TopDeals() {
-  const { success, listings } = await fetchTopDeals();
+  const response = await fetchTopDeals();
 
-  console.log(listings);
-  if (!success || !listings || listings.length === 0) {
+  console.log(response.data);
+  if (!response.success || response.data.length === 0) {
     return <></>;
   }
   return (
@@ -15,7 +15,7 @@ export default async function TopDeals() {
         <h2 className="mb-6 text-xl font-semibold">Top Deals</h2>
 
         <Carousel className="min-h-[22rem] pb-10" itemsPerSlide={2}>
-          {listings?.map((deal) => (
+          {response.data.map((deal) => (
             <Link
               key={deal.id}
               href={`/listings/${deal.id}`}

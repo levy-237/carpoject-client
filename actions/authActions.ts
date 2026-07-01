@@ -9,84 +9,17 @@ import {
 import { cookies } from "next/headers";
 import { revalidatePath } from "next/cache";
 import { UpdateProfileFormValues, UpdateProfileSchema } from "@/schemas/users";
+import type {
+  AuthLoginResponse,
+  AuthSignUpResponse,
+  RecoveryResponse,
+  UserProfile,
+} from "@/types/users";
 
 type LoginProps = {
   username: string;
   password: string;
 };
-
-export type LocationDetail = {
-  id: number;
-  name: string;
-};
-
-export type UserProfile = {
-  id: number;
-  created_at: string;
-  is_verified: boolean;
-  username: string;
-  company_name: string | null;
-  first_name: string;
-  last_name: string;
-  email: string;
-  phone: string;
-  picture: string;
-  storage_key: string;
-  favourite_listings: number[];
-  saved_search: number[];
-  province: number;
-  city: number;
-  streetname_number: string;
-  province_detail: LocationDetail;
-  city_detail: LocationDetail;
-  is_private: boolean;
-};
-
-export interface AuthMeSuccessResponse extends UserProfile {
-  success: true;
-  accessToken?: string;
-}
-
-export type AuthMeErrorResponse = {
-  success: false;
-  message: string;
-  accessToken?: null;
-};
-
-export type AuthLoginSuccessResponse = {
-  success: true;
-  message: string;
-};
-
-export type AuthLoginErrorResponse = {
-  success: false;
-  message: string;
-};
-
-export type AuthLoginResponse =
-  | AuthLoginSuccessResponse
-  | AuthLoginErrorResponse;
-
-export type RecoveryResponse = {
-  success: boolean;
-  message: string;
-};
-
-export interface AuthSignUpSuccessResponse extends UserProfile {
-  success: true;
-  message: string;
-}
-
-export type AuthSignUpErrorResponse = {
-  success: false;
-  message: string;
-};
-
-export type AuthSignUpResponse =
-  | AuthSignUpSuccessResponse
-  | AuthSignUpErrorResponse;
-
-export type AuthMeResponse = AuthMeSuccessResponse | AuthMeErrorResponse;
 
 export async function login({
   username,
@@ -98,6 +31,7 @@ export async function login({
     return {
       success: false,
       message: "Benutzername und Passwort sind erforderlich.",
+      data: null,
     };
   }
 
@@ -113,6 +47,7 @@ export async function login({
     return {
       success: false,
       message: data.detail || data.error || "Anmeldung fehlgeschlagen.",
+      data: null,
     };
   }
 
@@ -128,6 +63,7 @@ export async function login({
   return {
     success: true,
     message: "Anmeldung erfolgreich.",
+    data: null,
   };
 }
 
@@ -154,13 +90,14 @@ export async function signUp(formData: FormData): Promise<AuthSignUpResponse> {
     return {
       success: false,
       message: errorMessage,
+      data: null,
     };
   }
 
   return {
     success: true,
     message: "Registrierung erfolgreich.",
-    ...data,
+    data: data as UserProfile,
   };
 }
 
@@ -183,12 +120,14 @@ export async function requestRecoveryCode(
       success: false,
       message:
         data.error || data.detail || "Code konnte nicht gesendet werden.",
+      data: null,
     };
   }
 
   return {
     success: true,
     message: data.message || "Code wurde gesendet.",
+    data: null,
   };
 }
 
@@ -225,12 +164,14 @@ export async function resetPassword(
         data.detail ||
         data.error ||
         "Passwort konnte nicht zurückgesetzt werden.",
+      data: null,
     };
   }
 
   return {
     success: true,
     message: data.detail || "Passwort wurde zurückgesetzt.",
+    data: null,
   };
 }
 
@@ -241,13 +182,14 @@ export async function changePassword(
   const accessToken = await getAccessToken();
 
   if (!accessToken) {
-    return { success: false, message: "Nicht autorisiert." };
+    return { success: false, message: "Nicht autorisiert.", data: null };
   }
 
   if (!currentPassword || !newPassword) {
     return {
       success: false,
       message: "Bitte fülle beide Passwortfelder aus.",
+      data: null,
     };
   }
 
@@ -273,12 +215,14 @@ export async function changePassword(
       success: false,
       message:
         data.detail || data.error || "Passwort konnte nicht geändert werden.",
+      data: null,
     };
   }
 
   return {
     success: true,
     message: data.message || "Passwort wurde erfolgreich geändert.",
+    data: null,
   };
 }
 
@@ -286,7 +230,7 @@ export async function sendUserVerification(): Promise<RecoveryResponse> {
   const accessToken = await getAccessToken();
 
   if (!accessToken) {
-    return { success: false, message: "Nicht autorisiert." };
+    return { success: false, message: "Nicht autorisiert.", data: null };
   }
 
   const response = await fetch(
@@ -308,12 +252,14 @@ export async function sendUserVerification(): Promise<RecoveryResponse> {
         data.detail ||
         data.error ||
         "Bestätigungscode konnte nicht gesendet werden.",
+      data: null,
     };
   }
 
   return {
     success: true,
     message: data.message || "Bestätigungscode wurde gesendet.",
+    data: null,
   };
 }
 
@@ -321,11 +267,15 @@ export async function verifyUserEmail(code: string): Promise<RecoveryResponse> {
   const accessToken = await getAccessToken();
 
   if (!accessToken) {
-    return { success: false, message: "Nicht autorisiert." };
+    return { success: false, message: "Nicht autorisiert.", data: null };
   }
 
   if (!code.trim()) {
-    return { success: false, message: "Bitte gib den Bestätigungscode ein." };
+    return {
+      success: false,
+      message: "Bitte gib den Bestätigungscode ein.",
+      data: null,
+    };
   }
 
   const response = await fetch(
@@ -347,6 +297,7 @@ export async function verifyUserEmail(code: string): Promise<RecoveryResponse> {
       success: false,
       message:
         data.detail || data.error || "E-Mail konnte nicht bestätigt werden.",
+      data: null,
     };
   }
 
@@ -356,6 +307,7 @@ export async function verifyUserEmail(code: string): Promise<RecoveryResponse> {
   return {
     success: true,
     message: data.message || data.detail || "E-Mail wurde bestätigt.",
+    data: null,
   };
 }
 
@@ -371,7 +323,7 @@ export async function updateProfile({
   const accessToken = await getAccessToken();
 
   if (!accessToken) {
-    return { success: false, message: "Nicht autorisiert." };
+    return { success: false, message: "Nicht autorisiert.", data: null };
   }
 
   const validatedData = UpdateProfileSchema.safeParse(data);
@@ -398,6 +350,7 @@ export async function updateProfile({
     return {
       success: false,
       message: validatedData.error.message,
+      data: null,
     };
   }
 
@@ -418,6 +371,7 @@ export async function updateProfile({
         responseData.detail ||
         responseData.error ||
         "Profil konnte nicht aktualisiert werden.",
+      data: null,
     };
   }
 
@@ -428,5 +382,6 @@ export async function updateProfile({
   return {
     success: true,
     message: responseData.message || "Profil wurde aktualisiert.",
+    data: null,
   };
 }

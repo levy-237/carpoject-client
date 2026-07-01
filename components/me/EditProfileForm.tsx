@@ -1,9 +1,10 @@
 "use client";
 
-import { updateProfile, type UserProfile } from "@/actions/authActions";
+import { updateProfile } from "@/actions/authActions";
 import FieldError from "@/components/add-listings/FieldError";
 import SingleSelectFilter from "@/components/filters/SingleSelectFilter";
 import { UpdateProfileFormValues, UpdateProfileSchema } from "@/schemas/users";
+import type { UserProfile } from "@/types/users";
 import { zodResolver } from "@hookform/resolvers/zod";
 import Link from "next/link";
 import { useRouter } from "next/navigation";

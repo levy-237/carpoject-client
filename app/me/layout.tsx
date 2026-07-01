@@ -19,7 +19,9 @@ export default async function MeLayout({
 
   return (
     <>
-      {!response.is_verified && <VerifyEmailBanner email={response.email} />}
+      {!response.data.is_verified && (
+        <VerifyEmailBanner email={response.data.email} />
+      )}
 
       <main className="flex flex-1 justify-center px-4 py-10 md:py-16">
         <div className="flex w-full max-w-6xl flex-col gap-8 md:flex-row md:items-start">
