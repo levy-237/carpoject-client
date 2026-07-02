@@ -8,7 +8,7 @@ export const metadata = createPageMetadata(SITE_NAME);
 
 export default function Home() {
   return (
-    <main className="flex flex-1 flex-col">
+    <main className="flex flex-1 flex-col" data-testid="landing-page">
       <LandingSearchBar />
       <BeliebteKategorien />
       <TopDeals />
