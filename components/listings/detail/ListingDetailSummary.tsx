@@ -1,6 +1,6 @@
 import FavoriteListingButton from "@/components/listings/FavoriteListingButton";
-import type { Listing } from "@/lib/listings";
 import { formatMileage, formatPrice, formatYear } from "@/lib/listings";
+import type { Listing } from "@/types/listings";
 import type { ReactNode } from "react";
 import ListingStatusBadges from "./ListingStatusBadges";
 

@@ -1,6 +1,6 @@
 import { formatDate } from "@/lib/format";
-import type { Listing } from "@/lib/listings";
 import { formatMileage, formatYear } from "@/lib/listings";
+import type { Listing } from "@/types/listings";
 import {
   formatBoolean,
   formatOptionalValue,

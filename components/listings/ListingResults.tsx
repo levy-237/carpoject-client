@@ -2,7 +2,8 @@
 
 import { useEffect, useState } from "react";
 import DetailSearchModal from "@/components/filters/DetailSearchModal";
-import { fetchListings, type Listing } from "@/lib/listings";
+import { fetchListings } from "@/lib/listings";
+import type { Listing } from "@/types/listings";
 import ListingCard from "./ListingCard";
 import ListingResultsEmpty from "./ListingResultsEmpty";
 import Pagination from "./Pagination";
@@ -16,7 +17,7 @@ import {
 import { detailSearchParsers } from "@/lib/detail-search";
 import { useRouter } from "next/navigation";
 import FiltersDelete from "../filters/FiltersDelete";
-import { type UserProfile } from "@/actions/authActions";
+import type { UserProfile } from "@/types/users";
 import ListingCompareButton from "./ListingCompareButton";
 import { allActiveFiltersCount } from "@/lib/activeFilter-count";
 import { showToast } from "@/lib/toast";
@@ -85,11 +86,16 @@ export default function ListingResults({ user }: { user: UserProfile | null }) {
           }
         }
 
-        const data = await fetchListings(url.toString());
+        const response = await fetchListings(url.toString());
 
         if (!isCancelled) {
-          setCount(data.count);
-          setResults(data.results);
+          if (!response.success) {
+            setError(response.message);
+            return;
+          }
+
+          setCount(response.data.count);
+          setResults(response.data.results);
         }
       } catch (err) {
         if (!isCancelled) {

@@ -1,8 +1,8 @@
-import {
+import type {
   AuthMeErrorResponse,
   AuthMeResponse,
-  type UserProfile,
-} from "@/actions/authActions";
+  UserProfile,
+} from "@/types/users";
 import { cookies } from "next/headers";
 
 export const accessTokenCookie = {
@@ -53,6 +53,7 @@ export function createAuthMeError(message: string): AuthMeErrorResponse {
   return {
     success: false,
     message,
+    data: null,
     accessToken: null,
   };
 }
@@ -78,7 +79,8 @@ export async function getUserProfile(): Promise<AuthMeResponse> {
   const data = (await response.json()) as UserProfile;
 
   return {
-    ...data,
     success: true,
+    message: "User profile fetched successfully",
+    data,
   };
 }

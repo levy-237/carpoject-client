@@ -17,6 +17,9 @@ export default async function MeFavouritesPage() {
   }
 
   return (
-    <FavouriteListingsView listings={response.results} count={response.count} />
+    <FavouriteListingsView
+      listings={response.data.results}
+      count={response.data.count}
+    />
   );
 }

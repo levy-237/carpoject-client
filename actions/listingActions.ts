@@ -2,21 +2,12 @@
 
 import { getAccessToken } from "@/lib/auth";
 import { formatToYYYYMMDD } from "@/lib/format";
-import {
-  AddListingSchema,
-  type AddListingFormValues,
-} from "@/schemas/listings";
-
-type ToggleFavouriteResponse = {
-  success: boolean;
-  message: string;
-};
-
-export type MutateListingResponse = {
-  success: boolean;
-  message: string;
-  listingId?: number;
-};
+import { AddListingSchema } from "@/schemas/listings";
+import type {
+  AddListingFormValues,
+  MutateListingResponse,
+  ToggleFavouriteResponse,
+} from "@/types/listings";
 
 export async function createListing(
   data: AddListingFormValues,
@@ -24,7 +15,7 @@ export async function createListing(
   const accessToken = await getAccessToken();
 
   if (!accessToken) {
-    return { success: false, message: "Nicht autorisiert." };
+    return { success: false, message: "Nicht autorisiert.", data: null };
   }
 
   const parsed = AddListingSchema.safeParse(data);
@@ -33,6 +24,7 @@ export async function createListing(
     return {
       success: false,
       message: parsed.error.issues[0]?.message ?? "Ungültige Formulardaten.",
+      data: null,
     };
   }
 
@@ -60,13 +52,14 @@ export async function createListing(
         responseData.detail ||
         responseData.error ||
         "Anzeige konnte nicht erstellt werden.",
+      data: null,
     };
   }
 
   return {
     success: true,
     message: "Anzeige wurde erstellt.",
-    listingId: responseData.id,
+    data: { listingId: responseData.id },
   };
 }
 
@@ -80,7 +73,7 @@ export async function updateListing({
   const accessToken = await getAccessToken();
 
   if (!accessToken) {
-    return { success: false, message: "Nicht autorisiert." };
+    return { success: false, message: "Nicht autorisiert.", data: null };
   }
 
   const parsed = AddListingSchema.safeParse(data);
@@ -89,6 +82,7 @@ export async function updateListing({
     return {
       success: false,
       message: parsed.error.issues[0]?.message ?? "Ungültige Formulardaten.",
+      data: null,
     };
   }
 
@@ -116,13 +110,14 @@ export async function updateListing({
         responseData.detail ||
         responseData.error ||
         "Anzeige konnte nicht aktualisiert werden.",
+      data: null,
     };
   }
 
   return {
     success: true,
     message: "Anzeige wurde aktualisiert.",
-    listingId: id,
+    data: { listingId: id },
   };
 }
 
@@ -131,7 +126,7 @@ export async function toggleFavourite(
 ): Promise<ToggleFavouriteResponse> {
   const accessToken = await getAccessToken();
   if (!accessToken) {
-    return { success: false, message: "Unauthorized" };
+    return { success: false, message: "Unauthorized", data: null };
   }
   const response = await fetch(
     `${process.env.API_BASE_URL}listings/update-favourite/${listingId}/`,
@@ -149,9 +144,10 @@ export async function toggleFavourite(
     return {
       success: false,
       message: data.detail || data.error || "Failed to toggle favourite",
+      data: null,
     };
   }
 
   console.log(data);
-  return { success: true, message: data.message };
+  return { success: true, message: data.message, data: null };
 }

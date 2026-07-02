@@ -1,8 +1,5 @@
-import {
-  AuthMeErrorResponse,
-  AuthMeResponse,
-  type UserProfile,
-} from "@/actions/authActions";
+import type { ApiResponse } from "@/types/api";
+import type { AuthMeResponse, UserProfile } from "@/types/users";
 import {
   accessTokenCookie,
   createAuthMeError,
@@ -11,9 +8,7 @@ import {
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
 
-type TokenRefreshResult =
-  | AuthMeErrorResponse
-  | { success: true; accessToken: string };
+type TokenRefreshResult = ApiResponse<{ accessToken: string }>;
 
 export function removeTokensFromResponse(response: NextResponse) {
   response.cookies.delete(accessTokenCookie.name);
@@ -62,7 +57,8 @@ async function refreshToken(
 
   return {
     success: true,
-    accessToken: data.access,
+    message: "Access token refreshed successfully",
+    data: { accessToken: data.access },
   };
 }
 
@@ -76,9 +72,11 @@ async function retryGetUserProfile(
     return refreshResult;
   }
 
+  const { accessToken } = refreshResult.data;
+
   const retryResponse = await fetch(`${process.env.API_BASE_URL}users/me/`, {
     headers: {
-      Authorization: `Bearer ${refreshResult.accessToken}`,
+      Authorization: `Bearer ${accessToken}`,
     },
     cache: "no-store",
   });
@@ -90,9 +88,10 @@ async function retryGetUserProfile(
 
   const retriedData = (await retryResponse.json()) as UserProfile;
   return {
-    ...retriedData,
     success: true,
-    accessToken: refreshResult.accessToken,
+    message: "User profile fetched successfully",
+    data: retriedData,
+    accessToken,
   };
 }
 
@@ -124,7 +123,8 @@ export async function verifyUserProfile(
   const data = (await apiResponse.json()) as UserProfile;
 
   return {
-    ...data,
     success: true,
+    message: "User profile fetched successfully",
+    data,
   };
 }

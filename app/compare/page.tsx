@@ -25,5 +25,5 @@ export default async function page({
     );
   }
 
-  return <ComparationView listings={response.listings} />;
+  return <ComparationView listings={response.data} />;
 }

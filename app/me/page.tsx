@@ -12,5 +12,5 @@ export default async function MePage() {
     redirect("/login");
   }
 
-  return <ProfileView user={response} />;
+  return <ProfileView user={response.data} />;
 }

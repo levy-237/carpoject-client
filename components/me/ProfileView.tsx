@@ -1,6 +1,6 @@
 import { Pencil } from "lucide-react";
-import type { UserProfile } from "@/actions/authActions";
 import { formatDate } from "@/lib/format";
+import type { UserProfile } from "@/types/users";
 import Link from "next/link";
 
 function formatList(items: number[]) {

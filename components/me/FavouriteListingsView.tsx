@@ -2,7 +2,7 @@
 
 import ListingCard from "@/components/listings/ListingCard";
 import FavouriteListingsEmpty from "@/components/me/FavouriteListingsEmpty";
-import type { Listing } from "@/lib/listings";
+import type { Listing } from "@/types/listings";
 
 export default function FavouriteListingsView({
   listings,

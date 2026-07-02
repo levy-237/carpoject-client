@@ -1,38 +1,17 @@
 import { getAccessToken } from "@/lib/auth";
-import type { Listing, ListingsResponse } from "@/lib/listings";
-import { AddListingFormValues } from "@/schemas/listings";
+import type {
+  AddListingFormValues,
+  Listing,
+  ListingDetailResponse,
+  ListingListResponse,
+  ListingsResponse,
+} from "@/types/listings";
 
-export type ListingsMySuccessResponse = ListingsResponse & {
-  success: true;
-};
-
-export type ListingsMyErrorResponse = {
-  success: false;
-  message: string;
-};
-
-export type ListingDetailSuccessResponse = Listing & {
-  success: true;
-};
-
-export type ListingDetailErrorResponse = {
-  success: false;
-  message: string;
-};
-
-export type ListingDetailResponse =
-  | ListingDetailSuccessResponse
-  | ListingDetailErrorResponse;
-
-export type ListingsMyResponse =
-  | ListingsMySuccessResponse
-  | ListingsMyErrorResponse;
-
-export async function fetchMyListings(): Promise<ListingsMyResponse> {
+export async function fetchMyListings(): Promise<ListingListResponse> {
   const accessToken = await getAccessToken();
 
   if (!accessToken) {
-    return { success: false, message: "Unauthorized" };
+    return { success: false, message: "Unauthorized", data: null };
   }
 
   const response = await fetch(`${process.env.API_BASE_URL}listings/my/`, {
@@ -48,12 +27,14 @@ export async function fetchMyListings(): Promise<ListingsMyResponse> {
     return {
       success: false,
       message: data.detail || data.error || "Failed to fetch listings",
+      data: null,
     };
   }
 
   return {
     success: true,
-    ...data,
+    message: "Listings fetched successfully",
+    data: data as ListingsResponse,
   };
 }
 export async function fetchMyListingsById(
@@ -62,7 +43,7 @@ export async function fetchMyListingsById(
   const accessToken = await getAccessToken();
 
   if (!accessToken) {
-    return { success: false, message: "Unauthorized" };
+    return { success: false, message: "Unauthorized", data: null };
   }
 
   const response = await fetch(
@@ -81,17 +62,19 @@ export async function fetchMyListingsById(
     return {
       success: false,
       message: data.detail || data.error || "Failed to fetch listings",
+      data: null,
     };
   }
 
   return {
     success: true,
-    ...data,
+    message: "Listing fetched successfully",
+    data: data as Listing,
   };
 }
 
 export function myListingFetchToEditForm(
-  listing: ListingDetailSuccessResponse,
+  listing: Listing,
 ): AddListingFormValues {
   return {
     title: listing.title,

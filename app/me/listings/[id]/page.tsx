@@ -18,7 +18,7 @@ export default async function page({ params }: { params: { id: string } }) {
 
   return (
     <ListingForm
-      listing={myListingFetchToEditForm(response)}
+      listing={myListingFetchToEditForm(response.data)}
       variant="edit"
       id={parseInt(id)}
     />

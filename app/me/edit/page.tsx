@@ -23,7 +23,7 @@ export default async function MeEditPage() {
         </p>
       </div>
 
-      <EditProfileForm user={response} />
+      <EditProfileForm user={response.data} />
     </div>
   );
 }
