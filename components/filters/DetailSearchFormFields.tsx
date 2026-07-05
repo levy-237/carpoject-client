@@ -102,7 +102,11 @@ export default function DetailSearchFormFields({
             apiName="cars/brands"
             name="Marke"
             value={formFilters.brand}
-            onChange={(brand) => patchFormFilters({ brand })}
+            onChange={(brand) => {
+              patchFormFilters({ brand });
+              patchFormFilters({ model: [] });
+              patchFormFilters({ modeltrim: [] });
+            }}
             searchable
           />
 
@@ -111,7 +115,10 @@ export default function DetailSearchFormFields({
             name="Modell"
             value={formFilters.model}
             disabled={formFilters.brand.length === 0}
-            onChange={(model) => patchFormFilters({ model })}
+            onChange={(model) => {
+              patchFormFilters({ model });
+              patchFormFilters({ modeltrim: [] });
+            }}
             searchable
           />
           <DropDownFilter
