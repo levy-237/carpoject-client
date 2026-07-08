@@ -4,16 +4,6 @@ export type NavItem = {
   link: string;
 };
 
-export const UNDER_DEVELOPMENT_MESSAGE = "Diese Seite wird derzeit entwickelt.";
-
-export function isUnderDevelopmentLink(link: string): boolean {
-  const underDevelopmentPrefix =
-    process.env.NEXT_PUBLIC_UNDER_DEVELOPMENT_LINK ??
-    process.env.UNDER_DEVELOPMENT_LINK;
-  if (!underDevelopmentPrefix) return false;
-  return link.startsWith(underDevelopmentPrefix);
-}
-
 export const NAV_ITEMS: NavItem[] = [
   {
     id: 1,

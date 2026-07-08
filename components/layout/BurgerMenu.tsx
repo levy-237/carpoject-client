@@ -4,12 +4,7 @@ import { ChevronDown, User } from "lucide-react";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { DROPDOWN_ITEMS } from "@/lib/dropdown-items";
-import {
-  isUnderDevelopmentLink,
-  NAV_ITEMS,
-  UNDER_DEVELOPMENT_MESSAGE,
-} from "@/lib/nav-items";
-import { showToast } from "@/lib/toast";
+import { NAV_ITEMS } from "@/lib/nav-items";
 
 export default function BurgerMenu() {
   const [isOpen, setIsOpen] = useState<boolean>(false);
@@ -101,14 +96,7 @@ export default function BurgerMenu() {
                           <Link
                             href={item.link}
                             className="rounded-lg px-3 py-2.5 text-sm font-semibold text-gray-900 transition-colors hover:bg-gray-100"
-                            onClick={(e) => {
-                              if (isUnderDevelopmentLink(item.link)) {
-                                e.preventDefault();
-                                showToast(UNDER_DEVELOPMENT_MESSAGE, "info");
-                                return;
-                              }
-                              closeMenu();
-                            }}
+                            onClick={closeMenu}
                           >
                             Alle {item.title}
                           </Link>
@@ -118,14 +106,7 @@ export default function BurgerMenu() {
                               key={drawerItem.id}
                               href={drawerItem.link}
                               className="flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium text-gray-700 transition-colors hover:bg-gray-100"
-                              onClick={(e) => {
-                                if (isUnderDevelopmentLink(drawerItem.link)) {
-                                  e.preventDefault();
-                                  showToast(UNDER_DEVELOPMENT_MESSAGE, "info");
-                                  return;
-                                }
-                                closeMenu();
-                              }}
+                              onClick={closeMenu}
                             >
                               <img
                                 src={drawerItem.icon}
