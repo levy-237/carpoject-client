@@ -49,7 +49,7 @@ const methods: ChargingMethod[] = [
 
 export default function AufladenMethods() {
   return (
-    <section className="px-4 py-8">
+    <section className="px-4 py-8" data-testid="aufladen-methods">
       <div className="mx-auto max-w-4xl">
         <h2 className="mb-6 text-xl font-semibold">Drei Ladearten</h2>
 
@@ -69,7 +69,9 @@ export default function AufladenMethods() {
                     strokeWidth={1.75}
                     aria-hidden="true"
                   />
-                  <h3 className="font-semibold text-gray-900">{method.title}</h3>
+                  <h3 className="font-semibold text-gray-900">
+                    {method.title}
+                  </h3>
                 </div>
 
                 <p className="mt-3 text-sm leading-6 text-gray-600">

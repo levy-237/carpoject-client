@@ -11,7 +11,7 @@ export const metadata = createPageMetadata(
 
 export default function AufladenPage() {
   return (
-    <main className="flex flex-1 flex-col">
+    <main className="flex flex-1 flex-col" data-testid="aufladen-page">
       <AufladenIntro />
       <AufladenMethods />
       <AufladenCosts />

@@ -11,7 +11,11 @@ const checklist = [
 
 export default function AufladenChecklist() {
   return (
-    <section id="kaufberatung" className="scroll-mt-24 px-4 py-8 pb-16">
+    <section
+      id="kaufberatung"
+      className="scroll-mt-24 px-4 py-8 pb-16"
+      data-testid="aufladen-checklist"
+    >
       <div className="mx-auto max-w-4xl">
         <h2 className="mb-2 text-xl font-semibold">Vor dem Kauf</h2>
         <p className="mb-6 max-w-xl text-sm text-gray-500">

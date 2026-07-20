@@ -15,7 +15,11 @@ const costItems = [
 
 export default function AufladenCosts() {
   return (
-    <section id="kosten" className="scroll-mt-24 px-4 py-8">
+    <section
+      id="kosten"
+      className="scroll-mt-24 px-4 py-8"
+      data-testid="aufladen-costs"
+    >
       <div className="mx-auto max-w-4xl">
         <h2 className="mb-2 text-xl font-semibold">Kosten</h2>
         <p className="mb-6 max-w-xl text-sm text-gray-500">
